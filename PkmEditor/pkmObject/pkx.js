@@ -1,4 +1,4 @@
-let Memory = require('./../memory');
+let Memory = require('./memory');
 
 class PKX {
     constructor(binary) {
