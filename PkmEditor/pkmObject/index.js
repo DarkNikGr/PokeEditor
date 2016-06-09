@@ -5,3 +5,5 @@ class pkmObject {
         this._bin = binary;
     }
 }
+
+module.exports = pkmObject;
