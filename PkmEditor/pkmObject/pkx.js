@@ -59,6 +59,19 @@ class PKX {
         Memory.RW.setValueAt(offset.address, memory, offset.bits, this._bin);
         return true
     }
+
+    get heldItem() {
+        let offset = Memory.pkx.map.HELD_ITEM;
+        let memory = Memory.RW.getValueAt(offset.address, offset.bits, this._bin);
+        let u16a = new Uint16Array(memory.buffer);
+        return u16a[0];
+    }
+    set heldItem(item) {
+        let offset = Memory.pkx.map.HELD_ITEM;
+        let buffer = new Uint16Array([item]);
+        let memory = new Uint8Array(buffer.buffer);
+        Memory.RW.setValueAt(offset.address, memory, offset.bits, this._bin);
+    }
 }
 
 module.exports = PKX;
