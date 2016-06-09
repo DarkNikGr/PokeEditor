@@ -16,7 +16,10 @@ let getValueAt = (address, bits, bin) => {
     return buffer;
 };
 
-module.exports = {};
-module.exports.setValueAt = setValueAt;
-module.exports.getValueAt = getValueAt;
-module.exports.pkx = require('./pkx');
+module.exports = {
+    RW: {
+        setValueAt: setValueAt,
+        getValueAt: getValueAt
+    },
+    pkx: require('./pkx')
+};
