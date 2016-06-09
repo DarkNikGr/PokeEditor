@@ -7,7 +7,7 @@ let map = {
     HELD_ITEM: { address: 0xA, bits: 0x2 },
     OT_ID: { address: 0x0C, bits: 0x2 },
     OT_SECRET_ID: { address: 0x0E, bits: 0x2 },
-    EXP_POINTS: { address: 0x10, bits: 0x3 },
+    EXP_POINTS: { address: 0x10, bits: 0x4 },
     ABILITY: { address: 0x14, bits: 0x1 },
     ABILITY_NUM: { address: 0x15, bits: 0x1 },
 
@@ -36,7 +36,7 @@ let map = {
     POKERUS: { address: 0x2B, bits: 0x1 },
 
     SUPERTRAINING_GOLD_FLAGS: { address: 0x2C, bits: 0x4 },
-    RIBBONS: { address: 0x30, bits: 0x5 },
+    RIBBONS: { address: 0x30, bits: 0x6 },
     RIBBON_STATS: { address: 0x36, bits: 0x2 },
     SUPERTRAINING_DISTRIBUTION_FLAGS: { address: 0x3A, bits: 0x1 },
 
@@ -99,7 +99,7 @@ let map = {
     OT_AFFECTION: { address: 0xCB, bits: 0x1 },
     OT_MEMORY_INTENSITY: { address: 0xCC, bits: 0x1 },
     OT_MEMORY_LINE: { address: 0xCD, bits: 0x1 },
-    OT_MEMORY_TEXT: { address: 0xCE, bits: 2 },
+    OT_MEMORY_TEXT: { address: 0xCE, bits: 0x2 },
     OT_MEMORY_FEELING: { address: 0xD0, bits: 0x1 },
     EGG_MET_DATE: { address: 0xD1, bits: 0x3 },
     MET_DATE: { address: 0xD4, bits: 0x3 },

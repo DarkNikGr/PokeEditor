@@ -88,15 +88,13 @@ class PKX {
     get experience() {
         let offset = Memory.pkx.map.EXP_POINTS;
         let memory = Memory.RW.getValueAt(offset.address, offset.bits, this._bin);
-        let buffer = new Uint8Array([memory[0], memory[1], memory[2], 0x0]);
-        let u32a = new Uint32Array(buffer.buffer);
+        let u32a = new Uint32Array(memory.buffer);
         return u32a[0];
     }
     set experience(exp) {
         let offset = Memory.pkx.map.EXP_POINTS;
         let buffer = new Uint32Array([exp]);
-        let u8a = new Uint8Array(buffer.buffer);
-        let memory = new Uint8Array([u8a[0], u8a[1], u8a[2]]);
+        let memory = new Uint8Array(buffer.buffer);
         Memory.RW.setValueAt(offset.address, memory, offset.bits, this._bin);
     }
     
