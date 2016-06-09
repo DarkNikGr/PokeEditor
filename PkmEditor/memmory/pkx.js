@@ -1,102 +1,87 @@
 
-let map = {};
-/* Block A (0x8 - 0x3F) */
-map.NATIONAL_POKEDEX_ID = [0x8, 0x2];
-map.HELD_ITEM = [0xA, 0x2];
-map.OT_ID = [0x0C, 0x2];
-map.OT_SECRET_ID = [0x0E, 0x2];
-map.EXP_POINTS = [0x10, 0x3];
-map.ABILITY = [0x14, 0x1];
-map.ABILITY_NUM = [0x15, 0x1];
-// missing 0x16 - 0x17
-map.PERSONALITY_VALUE = [0x18, 0x4];
-map.NATURE = [0x1C, 0x1];
-map.ENCOUNTER_FLAGS = [0x1D, 0x1];
-//export const FATEFUL_ENCOUNTER = [];
-//export const IS_FEMALE,
-//export const IS_GENDERLESS,
-//export const ALTERNATE_FORMS;
-map.EV_HP = [0x1E, 0x1];
-map.EV_ATTACK = [0x1F, 0x1];
-map.EV_DEFENSE = [0x20, 0x1];
-map.EV_SPEED = [0x21, 0x1];
-map.EV_SPECIALATTACK = [0x22, 0x1];
-map.EV_SPECIALDEFENSE = [0x23, 0x1];
-map.CONTEST_COOL = [0x24, 0x1];
-map.CONTEST_BEAUTY = [0x25, 0x1];
-map.CONTEST_CUTE = [0x26, 0x1];
-map.CONTEST_TOUGH = [0x27, 0x1];
-map.CONTEST_SHEEN = [0x28, 0x1];
-map.MARKINGS = [0x29, 0x1];
-map.POKERUS = [0x2B, 0x1];
-map.SUPERTRAINING_GOLD_FLAGS = [0x2C, 0x4];
-map.RIBBONS = [0x30, 0x5];
-map.RIBBON_STATS = [0x36, 0x2];
-map.SUPERTRAINING_DISTRIBUTION_FLAGS = [0x3A, 0x1];
-/* Block B (0x40 - 0x77) */
-map.NICKNAME = [0x40, 0x12];
-map.MOVE1_ID = [0x58, 0x2];
-map.MOVE2_ID = [0x5C, 0x2];
-map.MOVE3_ID = [0x5E, 0x2];
-map.MOVE4_ID = [0x60, 0x2];
-map.MOVE1_PP = [0x62, 0x1];
-map.MOVE2_PP = [0x63, 0x1];
-map.MOVE3_PP = [0x64, 0x1];
-map.MOVE4_PP = [0x65, 0x1];
-map.MOVE1_PPUPS = [0x66, 0x1];
-map.MOVE2_PPUPS = [0x67, 0x1];
-map.MOVE3_PPUPS = [0x68, 0x1];
-map.MOVE4_PPUPS = [0x69, 0x1];
-map.MOVE1_RELEARN = [0x6A, 0x2];
-map.MOVE2_RELEARN = [0x6C, 0x2];
-map.MOVE3_RELEARN = [0x6E, 0x2];
-map.MOVE4_RELEARN = [0x70, 0x2];
-map.SUPERTRAINING_MISSIONFLAG = [0x72, 0x1];
-map.INDIVIDUAL_VALUES = [0x74, 0x4];
-//export const IV_ATTACK,
-//export const IV_DEFENSE,
-//export const IV_SPEED,
-//export const IV_SPECIALATTACK,
-//export const IV_SPECIALDEFENSE,
-//export const IS_EGG,
-//export const IS_NICKNAMED
-/* Block C (0x78 - 0xAF) */
-map.LH_NICKNAME = [0x78, 0x12];
-map.LH_GENDER = [0x92, 0x1];
-map.CURRENT_HANDLER = [0x93, 0x1];
-map.GEOLOC_1 = [0x94, 0x2];
-map.GEOLOC_2 = [0x96, 0x2];
-map.GEOLOC_3 = [0x98, 0x2];
-map.GEOLOC_4 = [0x9A, 0x2];
-map.GEOLOC_5 = [0x9C, 0x2];
-map.LH_FRIENDSHIP = [0xA2, 0x1];
-map.LH_AFFECTION = [0xA3, 0x1];
-map.LH_MEMORY_INTENSITY = [0xA4, 0x1];
-map.LH_MEMORY_LINE = [0xA5, 0x1];
-map.LH_MEMORY_FEELING = [0xA6, 0x1];
-map.LH_MEMORY_TEXT = [0xA8, 0x2];
-map.AMIE_FULLNESS = [0xAE, 0x1];
-map.AMIE_ENJOYMENT = [0xAF, 0x1];
-/* Block D (0xB0 - 0xE7) */
-map.OT_NICKNAME = [0xB0, 0x12];
-map.OT_FRIENDSHIP = [0xCA, 0x1];
-map.OT_AFFECTION = [0xCB, 0x1];
-map.OT_MEMORY_INTENSITY = [0xCC, 0x1];
-map.OT_MEMORY_LINE = [0xCD, 0x1];
-map.OT_MEMORY_TEXT = [0xCE, 0x2];
-map.OT_MEMORY_FEELING = [0xD0, 0x1];
-map.EGG_MET_DATE = [0xD1, 0x3];
-map.MET_DATE = [0xD4, 0x3];
-map.EGG_MET_LOCATION = [0xD8, 0x2];
-map.MET_LOCATION = [0xDA, 0x2];
-map.POKEBALL = [0xDC, 0x1];
-map.ENCOUNTER_OT_GENDER = [0xDD, 0x1];
-map.ENCOUNTER_TYPE = [0xDE, 0x1];
-map.OT_GAME_ID = [0xDF, 0x1];
-map.COUNTRY_ID = [0xE0, 0x1];
-map.REGION_ID = [0xE1, 0x1];
-map.REGION_3DS_ID = [0xE2, 0x1];
-map.OT_LANGUAGE_ID = [0xE3, 0x1];
+let map = {
+    NATIONAL_POKEDEX_ID: { address: 8, bits: 2 },
+    HELD_ITEM: { address: 10, bits: 2 },
+    OT_ID: { address: 12, bits: 2 },
+    OT_SECRET_ID: { address: 14, bits: 2 },
+    EXP_POINTS: { address: 16, bits: 3 },
+    ABILITY: { address: 20, bits: 1 },
+    ABILITY_NUM: { address: 21, bits: 1 },
+    PERSONALITY_VALUE: { address: 24, bits: 4 },
+    NATURE: { address: 28, bits: 1 },
+    ENCOUNTER_FLAGS: { address: 29, bits: 1 },
+    EV_HP: { address: 30, bits: 1 },
+    EV_ATTACK: { address: 31, bits: 1 },
+    EV_DEFENSE: { address: 32, bits: 1 },
+    EV_SPEED: { address: 33, bits: 1 },
+    EV_SPECIALATTACK: { address: 34, bits: 1 },
+    EV_SPECIALDEFENSE: { address: 35, bits: 1 },
+    CONTEST_COOL: { address: 36, bits: 1 },
+    CONTEST_BEAUTY: { address: 37, bits: 1 },
+    CONTEST_CUTE: { address: 38, bits: 1 },
+    CONTEST_TOUGH: { address: 39, bits: 1 },
+    CONTEST_SHEEN: { address: 40, bits: 1 },
+    MARKINGS: { address: 41, bits: 1 },
+    POKERUS: { address: 43, bits: 1 },
+    SUPERTRAINING_GOLD_FLAGS: { address: 44, bits: 4 },
+    RIBBONS: { address: 48, bits: 5 },
+    RIBBON_STATS: { address: 54, bits: 2 },
+    SUPERTRAINING_DISTRIBUTION_FLAGS: { address: 58, bits: 1 },
+    NICKNAME: { address: 64, bits: 18 },
+    MOVE1_ID: { address: 88, bits: 2 },
+    MOVE2_ID: { address: 92, bits: 2 },
+    MOVE3_ID: { address: 94, bits: 2 },
+    MOVE4_ID: { address: 96, bits: 2 },
+    MOVE1_PP: { address: 98, bits: 1 },
+    MOVE2_PP: { address: 99, bits: 1 },
+    MOVE3_PP: { address: 100, bits: 1 },
+    MOVE4_PP: { address: 101, bits: 1 },
+    MOVE1_PPUPS: { address: 102, bits: 1 },
+    MOVE2_PPUPS: { address: 103, bits: 1 },
+    MOVE3_PPUPS: { address: 104, bits: 1 },
+    MOVE4_PPUPS: { address: 105, bits: 1 },
+    MOVE1_RELEARN: { address: 106, bits: 2 },
+    MOVE2_RELEARN: { address: 108, bits: 2 },
+    MOVE3_RELEARN: { address: 110, bits: 2 },
+    MOVE4_RELEARN: { address: 112, bits: 2 },
+    SUPERTRAINING_MISSIONFLAG: { address: 114, bits: 1 },
+    INDIVIDUAL_VALUES: { address: 116, bits: 4 },
+    LH_NICKNAME: { address: 120, bits: 18 },
+    LH_GENDER: { address: 146, bits: 1 },
+    CURRENT_HANDLER: { address: 147, bits: 1 },
+    GEOLOC_1: { address: 148, bits: 2 },
+    GEOLOC_2: { address: 150, bits: 2 },
+    GEOLOC_3: { address: 152, bits: 2 },
+    GEOLOC_4: { address: 154, bits: 2 },
+    GEOLOC_5: { address: 156, bits: 2 },
+    LH_FRIENDSHIP: { address: 162, bits: 1 },
+    LH_AFFECTION: { address: 163, bits: 1 },
+    LH_MEMORY_INTENSITY: { address: 164, bits: 1 },
+    LH_MEMORY_LINE: { address: 165, bits: 1 },
+    LH_MEMORY_FEELING: { address: 166, bits: 1 },
+    LH_MEMORY_TEXT: { address: 168, bits: 2 },
+    AMIE_FULLNESS: { address: 174, bits: 1 },
+    AMIE_ENJOYMENT: { address: 175, bits: 1 },
+    OT_NICKNAME: { address: 176, bits: 18 },
+    OT_FRIENDSHIP: { address: 202, bits: 1 },
+    OT_AFFECTION: { address: 203, bits: 1 },
+    OT_MEMORY_INTENSITY: { address: 204, bits: 1 },
+    OT_MEMORY_LINE: { address: 205, bits: 1 },
+    OT_MEMORY_TEXT: { address: 206, bits: 2 },
+    OT_MEMORY_FEELING: { address: 208, bits: 1 },
+    EGG_MET_DATE: { address: 209, bits: 3 },
+    MET_DATE: { address: 212, bits: 3 },
+    EGG_MET_LOCATION: { address: 216, bits: 2 },
+    MET_LOCATION: { address: 218, bits: 2 },
+    POKEBALL: { address: 220, bits: 1 },
+    ENCOUNTER_OT_GENDER: { address: 221, bits: 1 },
+    ENCOUNTER_TYPE: { address: 222, bits: 1 },
+    OT_GAME_ID: { address: 223, bits: 1 },
+    COUNTRY_ID: { address: 224, bits: 1 },
+    REGION_ID: { address: 225, bits: 1 },
+    REGION_3DS_ID: { address: 226, bits: 1 },
+    OT_LANGUAGE_ID: { address: 227, bits: 1 }
+};
 
 module.exports = {};
 module.exports.map = map;

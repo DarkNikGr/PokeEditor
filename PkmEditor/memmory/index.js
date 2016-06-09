@@ -7,6 +7,7 @@ let setValueAt = (address, buffer, bits, bin) => {
 };
 
 let getValueAt = (address, bits, bin) => {
+    let buffer = new Uint8Array(bits);
     for (var b = bits, i = 0; b != 0; b--, i++, address++) {
         buffer[i] = bin[address];
         if (i > 0xFFF)
