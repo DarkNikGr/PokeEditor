@@ -6,7 +6,7 @@ class pkmObject {
         this._type = type || 'pkx';
     }
 
-    private setIVs(IVs, isEgg, isNicknamed) {
+    _setIVs(IVs, isEgg, isNicknamed) {
         let offset = Memory[this._type].INDIVIDUAL_VALUES;
         let current_data = this.GetIndividualValues();
         let IV32 = new Uint32Array(1);
@@ -30,7 +30,7 @@ class pkmObject {
         Memory.RW.setValueAt(offset.address, u8a, offset.bits, this._bin);
     }
 
-    private getIVs() {
+    _getIVs() {
         let offset = Memory[this._type].map.INDIVIDUAL_VALUES;
         let memory = Memory.RW.getValueAt(offset.address, offset.bits, this._bin);
         let u32a = new Uint32Array(memory.buffer);
