@@ -108,7 +108,7 @@ class PKX {
     set nickName(nickname) {
         let offset = Memory.pkx.map.NICKNAME;
         let u16a = new Uint16Array(0x9);
-        for (var i = 0, j = nickname.length; i < j; ++i) {
+        for (var i = 0; i < nickname.length; ++i) {
             u16a[i] = nickname.charCodeAt(i);
         }
         let u8a = new Uint8Array(u16a.buffer);
