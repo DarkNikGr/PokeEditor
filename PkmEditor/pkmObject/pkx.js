@@ -57,7 +57,6 @@ class PKX {
         let buffer = new Uint16Array([pokedexId]);
         let memory = new Uint8Array(buffer.buffer);
         Memory.RW.setValueAt(offset.address, memory, offset.bits, this._bin);
-        return true
     }
 
     get heldItem() {
@@ -69,6 +68,19 @@ class PKX {
     set heldItem(item) {
         let offset = Memory.pkx.map.HELD_ITEM;
         let buffer = new Uint16Array([item]);
+        let memory = new Uint8Array(buffer.buffer);
+        Memory.RW.setValueAt(offset.address, memory, offset.bits, this._bin);
+    }
+
+    get originalTrainerID() {
+        let offset = Memory.pkx.map.OT_ID;
+        let memory = Memory.RW.getValueAt(offset.address, offset.bits, this._bin);
+        let u16a = new Uint16Array(memory.buffer);
+        return u16a[0];
+    }
+    set originalTrainerID(otID) {
+        let offset = Memory.pkx.map.OT_ID;
+        let buffer = new Uint16Array([otID]);
         let memory = new Uint8Array(buffer.buffer);
         Memory.RW.setValueAt(offset.address, memory, offset.bits, this._bin);
     }
