@@ -27,6 +27,7 @@ class PKX {
         IV32[0] |= (Is_Nicknamed << 31);
         let u8a = new Uint8Array(IV32.buffer);
         Memory.RW.setValueAt(offset.address, u8a, offset.bits, this._bin);
+        return true;
     }
 
     _getIVs() {
@@ -47,19 +48,15 @@ class PKX {
 
     get nationalID() {
         let offset = Memory.pkx.map.NATIONAL_POKEDEX_ID;
-        if (offset) {
-            let memory = Memory.RW.getValueAt(offset.address, offset.bits, this._bin);
-            let u16a = new Uint16Array(memory.buffer);
-            return u16a[0];
-        } else return null;
+        let memory = Memory.RW.getValueAt(offset.address, offset.bits, this._bin);
+        let u16a = new Uint16Array(memory.buffer);
+        return u16a[0];
     }
     set nationalID(pokedexId) {
         let offset = Memory.pkx.map.NATIONAL_POKEDEX_ID;
-        if (offset) {
-            let buffer = new Uint16Array([pokedexId]);
-            let memory = new Uint8Array(buffer.buffer);
-            Memory.RW.setValueAt(offset.address, memory, offset.bits, this._bin);
-        } else return false;
+        let buffer = new Uint16Array([pokedexId]);
+        let memory = new Uint8Array(buffer.buffer);
+        Memory.RW.setValueAt(offset.address, memory, offset.bits, this._bin);
         return true
     }
 }
