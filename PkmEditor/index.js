@@ -1,6 +1,6 @@
 let fs = require('fs');
 let pkmObject = require('./Files');
-let fileTypeSize = require('./fileTypeSize.json');
+let fileTypeSize = require('./fileTypeSize.js');
 let data = require('./Data');
 
 let loader = (path) => {
