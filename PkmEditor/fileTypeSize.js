@@ -1,4 +1,0 @@
-module.exports = {
-  GEN6_POKEMON_DECRYPDET: 0x104,
-  GEN6_SAVE_ORAS: 0x76000
-};

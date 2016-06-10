@@ -1,6 +1,5 @@
 let Memory = require('./memory/index');
 let Encryption = require('./encryption/index');
-let fileTypeSize = require('./../fileTypeSize.js');
 
 class PK6 {
     constructor(binary) {
@@ -8,7 +7,6 @@ class PK6 {
         if(this._checkIfEncrypted()){
             this._bin = Encryption.PK6.decrypt(binary);
         }
-        this._type = fileTypeSize.GEN6_POKEMON_DECRYPDET;
     }
 
     _checkIfEncrypted() {
