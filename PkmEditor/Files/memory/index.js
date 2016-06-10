@@ -23,5 +23,6 @@ module.exports = {
         setValueAt: setValueAt,
         getValueAt: getValueAt
     },
-    PK6: require('./PK6')
+    PK6: require('./PK6'),
+    SAV6: require('./SAV6')
 };
