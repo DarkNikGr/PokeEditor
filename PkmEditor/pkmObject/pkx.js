@@ -112,6 +112,50 @@ class PKX {
         let u8a = new Uint8Array(u16a.buffer);
         Memory.RW.setValueAt(offset.address, u8a, offset.bits, this._bin);
     }
+    get EVs() {
+        let offsetHP = Memory.pkx.map.EV_HP;
+        let offsetATTACK = Memory.pkx.map.EV_ATTACK;
+        let offsetDEFENSE = Memory.pkx.map.EV_DEFENSE;
+        let offsetSPECIALATTACK = Memory.pkx.map.EV_SPECIALATTACK;
+        let offsetSPECIALDEFENSE = Memory.pkx.map.EV_SPECIALDEFENSE;
+        let offsetSPEED = Memory.pkx.map.EV_SPEED;
+        let memoryHP = Memory.RW.getValueAt(offsetHP.address, offsetHP.bits, this._bin);
+        let memoryATTACK = Memory.RW.getValueAt(offsetATTACK.address, offsetATTACK.bits, this._bin);
+        let memoryDEFENSE = Memory.RW.getValueAt(offsetDEFENSE.address, offsetDEFENSE.bits, this._bin);
+        let memorySPECIALATTACK = Memory.RW.getValueAt(offsetSPECIALATTACK.address, offsetSPECIALATTACK.bits, this._bin);
+        let memorySPECIALDEFENSE = Memory.RW.getValueAt(offsetSPECIALDEFENSE.address, offsetSPECIALDEFENSE.bits, this._bin);
+        let memorySPEED = Memory.RW.getValueAt(offsetSPEED.address, offsetSPEED.bits, this._bin);
+        let evs = {};
+        evs.hp = memoryHP[0];
+        evs.attack = memoryATTACK[0];
+        evs.defense = memoryDEFENSE[0];
+        evs.specialattack = memorySPECIALATTACK[0];
+        evs.specialdefense = memorySPECIALDEFENSE[0];
+        evs.speed = memorySPEED[0];
+        return evs;
+    }
+    set EVs(evs) {
+        let offsetHP = Memory.pkx.map.EV_HP;
+        let offsetATTACK = Memory.pkx.map.EV_ATTACK;
+        let offsetDEFENSE = Memory.pkx.map.EV_DEFENSE;
+        let offsetSPECIALATTACK = Memory.pkx.map.EV_SPECIALATTACK;
+        let offsetSPECIALDEFENSE = Memory.pkx.map.EV_SPECIALDEFENSE;
+        let offsetSPEED = Memory.pkx.map.EV_SPEED;
+        let current = this.EVs;
+        let tmpEVs = {};
+        tmpEVs.hp = new Uint8Array([evs.hp || current.hp]);
+        tmpEVs.attack = new Uint8Array([evs.attack || current.attack]);
+        tmpEVs.defense = new Uint8Array([evs.defense || current.defense]);
+        tmpEVs.specialattack = new Uint8Array([evs.specialattack || current.specialattack]);
+        tmpEVs.specialdefense = new Uint8Array([evs.specialdefense || current.specialdefense]);
+        tmpEVs.speed = new Uint8Array([evs.speed || current.speed]);
+        Memory.RW.setValueAt(offsetHP.address, tmpEVs.hp, offsetHP.bits, this._bin);
+        Memory.RW.setValueAt(offsetATTACK.address, tmpEVs.attack, offsetATTACK.bits, this._bin);
+        Memory.RW.setValueAt(offsetDEFENSE.address, tmpEVs.defense, offsetDEFENSE.bits, this._bin);
+        Memory.RW.setValueAt(offsetSPECIALATTACK.address, tmpEVs.specialattack, offsetSPECIALATTACK.bits, this._bin);
+        Memory.RW.setValueAt(offsetSPECIALDEFENSE.address, tmpEVs.specialdefense, offsetSPECIALDEFENSE.bits, this._bin);
+        Memory.RW.setValueAt(offsetSPEED.address, tmpEVs.speed, offsetSPEED.bits, this._bin);
+    }
 }
 
 module.exports = PKX;
