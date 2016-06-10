@@ -6,18 +6,18 @@ class PKX {
     }
 
     _setIVs(IVs, isEgg, isNicknamed) {
-        let current_data = this._getIVs();
+        let current = this._getIVs();
         let IV32 = new Uint32Array(1);
-        IV32[0] = IVs.hp || current_data.hp & 0x1F;
-        IV32[0] |= ((IVs.hp || current_data.hp & 0x1F) << 5);
-        IV32[0] |= ((IVs.defense || current_data.defense & 0x1F) << 10);
-        IV32[0] |= ((IVs.speed || current_data.speed & 0x1F) << 15);
-        IV32[0] |= ((IVs.specialattack || current_data.specialattack & 0x1F) << 20);
-        IV32[0] |= ((IVs.specialdefense || current_data.specialdefense & 0x1F) << 25);
-        IV32[0] |= ((isEgg? 1 : 0) || current_data.is_egg << 30);
-        IV32[0] |= ((isNicknamed? 1 : 0) || current_data.is_nicknamed << 31);
+        IV32[0] = IVs.hp || current.hp & 0x1F;
+        IV32[0] |= ((IVs.attack || current.attack & 0x1F) << 5);
+        IV32[0] |= ((IVs.defense || current.defense & 0x1F) << 10);
+        IV32[0] |= ((IVs.speed || current.speed & 0x1F) << 15);
+        IV32[0] |= ((IVs.specialattack || current.specialattack & 0x1F) << 20);
+        IV32[0] |= ((IVs.specialdefense || current.specialdefense & 0x1F) << 25);
+        IV32[0] |= ((isEgg? 1 : 0) || current.is_egg << 30);
+        IV32[0] |= ((isNicknamed? 1 : 0) || current.is_nicknamed << 31);
         let u8a = new Uint8Array(IV32.buffer);
-        Memory.RW.setValueAt(Memory.pkx.INDIVIDUAL_VALUES, u8a, this._bin);
+        Memory.RW.setValueAt(Memory.pkx.map.INDIVIDUAL_VALUES, u8a, this._bin);
         return true;
     }
 
@@ -115,15 +115,16 @@ class PKX {
         tmpEVs.hp = new Uint8Array([evs.hp || current.hp]);
         tmpEVs.attack = new Uint8Array([evs.attack || current.attack]);
         tmpEVs.defense = new Uint8Array([evs.defense || current.defense]);
+        tmpEVs.speed = new Uint8Array([evs.speed || current.speed]);
         tmpEVs.specialattack = new Uint8Array([evs.specialattack || current.specialattack]);
         tmpEVs.specialdefense = new Uint8Array([evs.specialdefense || current.specialdefense]);
-        tmpEVs.speed = new Uint8Array([evs.speed || current.speed]);
         Memory.RW.setValueAt(Memory.pkx.map.EV_HP, tmpEVs.hp, this._bin);
         Memory.RW.setValueAt(Memory.pkx.map.EV_ATTACK, tmpEVs.attack, this._bin);
         Memory.RW.setValueAt(Memory.pkx.map.EV_DEFENSE, tmpEVs.defense, this._bin);
+        Memory.RW.setValueAt(Memory.pkx.map.EV_SPEED, tmpEVs.speed, this._bin);
         Memory.RW.setValueAt(Memory.pkx.map.EV_SPECIALATTACK, tmpEVs.specialattack, this._bin);
         Memory.RW.setValueAt(Memory.pkx.map.EV_SPECIALDEFENSE, tmpEVs.specialdefense, this._bin);
-        Memory.RW.setValueAt(Memory.pkx.map.EV_SPEED, tmpEVs.speed, this._bin);
+
     }
 }
 
