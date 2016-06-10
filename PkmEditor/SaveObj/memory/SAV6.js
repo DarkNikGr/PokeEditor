@@ -141,6 +141,8 @@ ORASMap.POKEMON_GLOBAL_LINK_GIFTS = { address: 0x26200, bits: 0x200};
 ORASMap.BOX_DATA = { address: 0x38400, bits: 0x34AD0};
 
 module.exports = {
-    XY: XYMap,
-    ORAS: ORASMap
+    MAP:{
+        XY: XYMap,
+        ORAS: ORASMap
+    }
 };
