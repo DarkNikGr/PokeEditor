@@ -118,4 +118,4 @@ let map = {
 };
 
 module.exports = {};
-module.exports.map = map;
+module.exports.MAP = map;
