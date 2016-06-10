@@ -1,11 +1,13 @@
 let Memory = require('./memory');
+let Encryption = require('./encryption');
 let fileTypeSize = require('./../fileTypeSize.json');
 
 class PK6 {
     constructor(binary) {
-        this._bin = binary;
         if(this._checkIfEncrypted()){
-            console.log('isEncrypted ');
+            this._bin = Encryption.PK6.decrypt(binary);
+        }else{
+            this._bin = binary;
         }
         this._type = fileTypeSize.GEN6_POKEMON_DECRYPDET;
     }
@@ -13,7 +15,6 @@ class PK6 {
     _checkIfEncrypted() {
         return (this._bin[0xe4] != 0);
     }
-    
 
     _setIVs(ivs, isEgg, isNicknamed) {
         let current = this._getIVs();
