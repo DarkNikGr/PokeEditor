@@ -12,11 +12,11 @@ class PKX {
         let is_nicknamed = isNicknamed || current.is_nicknamed;
         let IV32 = new Uint32Array(1);
         IV32[0] = IVs.hp || current.hp & 0x1F;
-        IV32[0] |= ((IVs.attack || current.attack & 0x1F) << 5);
-        IV32[0] |= ((IVs.defense || current.defense & 0x1F) << 10);
-        IV32[0] |= ((IVs.speed || current.speed & 0x1F) << 15);
-        IV32[0] |= ((IVs.specialattack || current.specialattack & 0x1F) << 20);
-        IV32[0] |= ((IVs.specialdefense || current.specialdefense & 0x1F) << 25);
+        IV32[0] |= (((IVs.attack || current.attack) & 0x1F) << 5);
+        IV32[0] |= (((IVs.defense || current.defense) & 0x1F) << 10);
+        IV32[0] |= (((IVs.speed || current.speed) & 0x1F) << 15);
+        IV32[0] |= (((IVs.specialattack || current.specialattack) & 0x1F) << 20);
+        IV32[0] |= (((IVs.specialdefense || current.specialdefense) & 0x1F) << 25);
         IV32[0] |= ((is_Egg? 1 : 0) << 30);
         IV32[0] |= ((is_nicknamed? 1 : 0) << 31);
         let u8a = new Uint8Array(IV32.buffer);
