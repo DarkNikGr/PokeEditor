@@ -1,9 +1,34 @@
 const cuint = require("cuint");
-var mul_const = cuint.UINT32(1103515245);
-var add_const = cuint.UINT32(24691);
+let mul_const = cuint.UINT32(1103515245);
+let add_const = cuint.UINT32(24691);
 
 let cuintNext = (seed) => {
     return cuint.UINT32(seed).multiply(mul_const).add(add_const).toNumber() >>> 0;
+};
+
+let copy = (src, off1, dest, off2, length) => {
+    let totalOffset1 = off1 + src.byteOffset;
+    let totalOffset2 = off2 + dest.byteOffset;
+    let lower4Bound = Math.min(-totalOffset1 & 3, length);
+    let upper4Bound = Math.min(length & ~3 + lower4Bound, length);
+    if (((totalOffset1 - totalOffset2) & 3) !== 0 || lower4Bound >= upper4Bound) {
+        for (let i = 0; i < length; ++i) {
+            dest[i + off2] = src[i + off1];
+        }
+    } else {
+        for (let i = 0; i < lower4Bound; ++i) {
+            dest[i + off2] = src[i + off1];
+        }
+        let intermediate4Length = (upper4Bound - lower4Bound) >> 2;
+        let src_32 = new Uint32Array(src.buffer, totalOffset1 + lower4Bound, intermediate4Length);
+        let dest_32 = new Uint32Array(dest.buffer, totalOffset2 + lower4Bound, intermediate4Length);
+        for (let i = 0; i < intermediate4Length; ++i) {
+            dest_32[i] = src_32[i];
+        }
+        for (let i = upper4Bound; i < length; ++i) {
+            dest[i + off2] = src[i + off1];
+        }
+    }
 };
 
 let deshuffleloc = [
@@ -62,29 +87,29 @@ let shuffleloc = [
 
 let deshuffle = (pkx, sv) => {
     let ekx = new Uint8Array(pkx.length);
-    util.copy(pkx, 0, ekx, 0, 8);
+    copy(pkx, 0, ekx, 0, 8);
     let shuffle = deshuffleloc[sv];
     for (let b = 0; b < 4; b++)
-        util.copy(pkx, 8 + 56 * shuffle[b], ekx, 8 + 56 * b, 56);
+        copy(pkx, 8 + 56 * shuffle[b], ekx, 8 + 56 * b, 56);
     if (pkx.length > 232)
-        util.copy(pkx, 232, ekx, 232, 28);
+        copy(pkx, 232, ekx, 232, 28);
     return ekx;
 };
 
 let shuffle = (pkx, sv) => {
     let ekx = new Uint8Array(pkx.length);
-    util.copy(pkx, 0, ekx, 0, 8);
+    copy(pkx, 0, ekx, 0, 8);
     let shuffle = shuffleloc[sv];
     for (let b = 0; b < 4; b++)
-        util.copy(pkx, 8 + 56 * shuffle[b], ekx, 8 + 56 * b, 56);
+        copy(pkx, 8 + 56 * shuffle[b], ekx, 8 + 56 * b, 56);
     if (pkx.length > 232)
-        util.copy(pkx, 232, ekx, 232, 28);
+        copy(pkx, 232, ekx, 232, 28);
     return ekx;
 };
 
 let decrypt = (ekx) => {
     let pkx = new Uint8Array(ekx.length);
-    util.copy(ekx, 0, pkx, 0, ekx.length);
+    copy(ekx, 0, pkx, 0, ekx.length);
     let pv = new DataView(pkx.buffer, pkx.byteOffset, pkx.byteLength).getUint32(0, true);
     let sv = (((pv & 0x3E000) >> 0xD) % 24);
     let seed = pv;
@@ -106,7 +131,7 @@ let decrypt = (ekx) => {
 
 let encrypt = (pkx) => {
     let ekx = new Uint8Array(pkx.length);
-    util.copy(pkx, 0, ekx, 0, ekx.length);
+    copy(pkx, 0, ekx, 0, ekx.length);
     let pv = new DataView(pkx.buffer, pkx.byteOffset, pkx.byteLength).getUint32(0, true);
     let sv = (((pv & 0x3E000) >> 0xD) % 24);
     ekx = shuffle(ekx, sv);
