@@ -6,8 +6,7 @@ class PKX {
     }
 
     _setIVs(IVs, isEgg, isNicknamed) {
-        let offset = Memory.pkx.INDIVIDUAL_VALUES;
-        let current_data = this.GetIndividualValues();
+        let current_data = this._getIVs();
         let IV32 = new Uint32Array(1);
         let IV_HP = IVs.hp || current_data.hp;
         let IV_Attack = IVs.attack || current_data.attack;
@@ -26,13 +25,12 @@ class PKX {
         IV32[0] |= (Is_Egg << 30);
         IV32[0] |= (Is_Nicknamed << 31);
         let u8a = new Uint8Array(IV32.buffer);
-        Memory.RW.setValueAt(offset.address, u8a, offset.bits, this._bin);
+        Memory.RW.setValueAt(Memory.pkx.INDIVIDUAL_VALUES, u8a, this._bin);
         return true;
     }
 
     _getIVs() {
-        let offset = Memory.pkx.map.INDIVIDUAL_VALUES;
-        let memory = Memory.RW.getValueAt(offset.address, offset.bits, this._bin);
+        let memory = Memory.RW.getValueAt(Memory.pkx.map.INDIVIDUAL_VALUES, this._bin);
         let u32a = new Uint32Array(memory.buffer);
         let ivs = {};
         ivs.hp = (u32a[0] & 0x1F);
@@ -47,60 +45,51 @@ class PKX {
     }
 
     get nationalID() {
-        let offset = Memory.pkx.map.NATIONAL_POKEDEX_ID;
-        let memory = Memory.RW.getValueAt(offset.address, offset.bits, this._bin);
+        let memory = Memory.RW.getValueAt(Memory.pkx.map.NATIONAL_POKEDEX_ID, this._bin);
         let u16a = new Uint16Array(memory.buffer);
         return u16a[0];
     }
     set nationalID(pokedexId) {
-        let offset = Memory.pkx.map.NATIONAL_POKEDEX_ID;
         let buffer = new Uint16Array([pokedexId]);
         let memory = new Uint8Array(buffer.buffer);
-        Memory.RW.setValueAt(offset.address, memory, offset.bits, this._bin);
+        Memory.RW.setValueAt(Memory.pkx.map.NATIONAL_POKEDEX_ID, memory, this._bin);
     }
 
     get heldItem() {
-        let offset = Memory.pkx.map.HELD_ITEM;
-        let memory = Memory.RW.getValueAt(offset.address, offset.bits, this._bin);
+        let memory = Memory.RW.getValueAt(Memory.pkx.map.HELD_ITEM, this._bin);
         let u16a = new Uint16Array(memory.buffer);
         return u16a[0];
     }
     set heldItem(item) {
-        let offset = Memory.pkx.map.HELD_ITEM;
         let buffer = new Uint16Array([item]);
         let memory = new Uint8Array(buffer.buffer);
-        Memory.RW.setValueAt(offset.address, memory, offset.bits, this._bin);
+        Memory.RW.setValueAt(Memory.pkx.map.HELD_ITEM, memory, this._bin);
     }
 
     get originalTrainerID() {
-        let offset = Memory.pkx.map.OT_ID;
-        let memory = Memory.RW.getValueAt(offset.address, offset.bits, this._bin);
+        let memory = Memory.RW.getValueAt(Memory.pkx.map.OT_ID, this._bin);
         let u16a = new Uint16Array(memory.buffer);
         return u16a[0];
     }
     set originalTrainerID(otID) {
-        let offset = Memory.pkx.map.OT_ID;
         let buffer = new Uint16Array([otID]);
         let memory = new Uint8Array(buffer.buffer);
-        Memory.RW.setValueAt(offset.address, memory, offset.bits, this._bin);
+        Memory.RW.setValueAt(Memory.pkx.map.OT_ID, memory, this._bin);
     }
 
     get experience() {
-        let offset = Memory.pkx.map.EXP_POINTS;
-        let memory = Memory.RW.getValueAt(offset.address, offset.bits, this._bin);
+        let memory = Memory.RW.getValueAt(Memory.pkx.map.EXP_POINTS, this._bin);
         let u32a = new Uint32Array(memory.buffer);
         return u32a[0];
     }
     set experience(exp) {
-        let offset = Memory.pkx.map.EXP_POINTS;
         let buffer = new Uint32Array([exp]);
         let memory = new Uint8Array(buffer.buffer);
-        Memory.RW.setValueAt(offset.address, memory, offset.bits, this._bin);
+        Memory.RW.setValueAt(Memory.pkx.map.EXP_POINTS, memory, this._bin);
     }
     
     get nickName() {
-        let offset = Memory.pkx.map.NICKNAME;
-        let memory = Memory.RW.getValueAt(offset.address, offset.bits, this._bin);
+        let memory = Memory.RW.getValueAt(Memory.pkx.map.NICKNAME, this._bin);
         return String.fromCharCode.apply(null, memory);
     }
     set nickName(nickname) {
@@ -110,21 +99,15 @@ class PKX {
             u16a[i] = nickname.charCodeAt(i);
         }
         let u8a = new Uint8Array(u16a.buffer);
-        Memory.RW.setValueAt(offset.address, u8a, offset.bits, this._bin);
+        Memory.RW.setValueAt(Memory.pkx.map.NICKNAME, u8a, this._bin);
     }
     get EVs() {
-        let offsetHP = Memory.pkx.map.EV_HP;
-        let offsetATTACK = Memory.pkx.map.EV_ATTACK;
-        let offsetDEFENSE = Memory.pkx.map.EV_DEFENSE;
-        let offsetSPECIALATTACK = Memory.pkx.map.EV_SPECIALATTACK;
-        let offsetSPECIALDEFENSE = Memory.pkx.map.EV_SPECIALDEFENSE;
-        let offsetSPEED = Memory.pkx.map.EV_SPEED;
-        let memoryHP = Memory.RW.getValueAt(offsetHP.address, offsetHP.bits, this._bin);
-        let memoryATTACK = Memory.RW.getValueAt(offsetATTACK.address, offsetATTACK.bits, this._bin);
-        let memoryDEFENSE = Memory.RW.getValueAt(offsetDEFENSE.address, offsetDEFENSE.bits, this._bin);
-        let memorySPECIALATTACK = Memory.RW.getValueAt(offsetSPECIALATTACK.address, offsetSPECIALATTACK.bits, this._bin);
-        let memorySPECIALDEFENSE = Memory.RW.getValueAt(offsetSPECIALDEFENSE.address, offsetSPECIALDEFENSE.bits, this._bin);
-        let memorySPEED = Memory.RW.getValueAt(offsetSPEED.address, offsetSPEED.bits, this._bin);
+        let memoryHP = Memory.RW.getValueAt(Memory.pkx.map.EV_HP, this._bin);
+        let memoryATTACK = Memory.RW.getValueAt(Memory.pkx.map.EV_ATTACK, this._bin);
+        let memoryDEFENSE = Memory.RW.getValueAt(Memory.pkx.map.EV_DEFENSE, this._bin);
+        let memorySPECIALATTACK = Memory.RW.getValueAt(Memory.pkx.map.EV_SPECIALATTACK, this._bin);
+        let memorySPECIALDEFENSE = Memory.RW.getValueAt(Memory.pkx.map.EV_SPECIALDEFENSE, this._bin);
+        let memorySPEED = Memory.RW.getValueAt(Memory.pkx.map.EV_SPEED, this._bin);
         let evs = {};
         evs.hp = memoryHP[0];
         evs.attack = memoryATTACK[0];
@@ -135,12 +118,6 @@ class PKX {
         return evs;
     }
     set EVs(evs) {
-        let offsetHP = Memory.pkx.map.EV_HP;
-        let offsetATTACK = Memory.pkx.map.EV_ATTACK;
-        let offsetDEFENSE = Memory.pkx.map.EV_DEFENSE;
-        let offsetSPECIALATTACK = Memory.pkx.map.EV_SPECIALATTACK;
-        let offsetSPECIALDEFENSE = Memory.pkx.map.EV_SPECIALDEFENSE;
-        let offsetSPEED = Memory.pkx.map.EV_SPEED;
         let current = this.EVs;
         let tmpEVs = {};
         tmpEVs.hp = new Uint8Array([evs.hp || current.hp]);
@@ -149,12 +126,12 @@ class PKX {
         tmpEVs.specialattack = new Uint8Array([evs.specialattack || current.specialattack]);
         tmpEVs.specialdefense = new Uint8Array([evs.specialdefense || current.specialdefense]);
         tmpEVs.speed = new Uint8Array([evs.speed || current.speed]);
-        Memory.RW.setValueAt(offsetHP.address, tmpEVs.hp, offsetHP.bits, this._bin);
-        Memory.RW.setValueAt(offsetATTACK.address, tmpEVs.attack, offsetATTACK.bits, this._bin);
-        Memory.RW.setValueAt(offsetDEFENSE.address, tmpEVs.defense, offsetDEFENSE.bits, this._bin);
-        Memory.RW.setValueAt(offsetSPECIALATTACK.address, tmpEVs.specialattack, offsetSPECIALATTACK.bits, this._bin);
-        Memory.RW.setValueAt(offsetSPECIALDEFENSE.address, tmpEVs.specialdefense, offsetSPECIALDEFENSE.bits, this._bin);
-        Memory.RW.setValueAt(offsetSPEED.address, tmpEVs.speed, offsetSPEED.bits, this._bin);
+        Memory.RW.setValueAt(Memory.pkx.map.EV_HP, tmpEVs.hp, this._bin);
+        Memory.RW.setValueAt(Memory.pkx.map.EV_ATTACK, tmpEVs.attack, this._bin);
+        Memory.RW.setValueAt(Memory.pkx.map.EV_DEFENSE, tmpEVs.defense, this._bin);
+        Memory.RW.setValueAt(Memory.pkx.map.EV_SPECIALATTACK, tmpEVs.specialattack, this._bin);
+        Memory.RW.setValueAt(Memory.pkx.map.EV_SPECIALDEFENSE, tmpEVs.specialdefense, this._bin);
+        Memory.RW.setValueAt(Memory.pkx.map.EV_SPEED, tmpEVs.speed, this._bin);
     }
 }
 
