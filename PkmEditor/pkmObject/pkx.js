@@ -5,8 +5,11 @@ class PKX {
         this._bin = binary;
     }
 
-    _setIVs(IVs, isEgg, isNicknamed) {
+    _setIVs(ivs, isEgg, isNicknamed) {
         let current = this._getIVs();
+        let IVs = ivs || {};
+        let is_Egg = isEgg || current.is_egg;
+        let is_nicknamed = isNicknamed || current.is_nicknamed;
         let IV32 = new Uint32Array(1);
         IV32[0] = IVs.hp || current.hp & 0x1F;
         IV32[0] |= ((IVs.attack || current.attack & 0x1F) << 5);
@@ -14,8 +17,8 @@ class PKX {
         IV32[0] |= ((IVs.speed || current.speed & 0x1F) << 15);
         IV32[0] |= ((IVs.specialattack || current.specialattack & 0x1F) << 20);
         IV32[0] |= ((IVs.specialdefense || current.specialdefense & 0x1F) << 25);
-        IV32[0] |= ((isEgg? 1 : 0) || current.is_egg << 30);
-        IV32[0] |= ((isNicknamed? 1 : 0) || current.is_nicknamed << 31);
+        IV32[0] |= ((is_Egg? 1 : 0) << 30);
+        IV32[0] |= ((is_nicknamed? 1 : 0) << 31);
         let u8a = new Uint8Array(IV32.buffer);
         Memory.RW.setValueAt(Memory.pkx.map.INDIVIDUAL_VALUES, u8a, this._bin);
         return true;
@@ -134,6 +137,14 @@ class PKX {
     }
     set IVs(ivs) {
         this._setIVs(ivs);
+    }
+
+    get isNicknamed() {
+        let iv = this._getIVs();
+        return iv.is_nicknamed? true : false;
+    }
+    set isNicknamed(is_nicknamed) {
+        this._setIVs(null, null, is_nicknamed);
     }
 }
 
