@@ -146,6 +146,14 @@ class PKX {
     set isNicknamed(is_nicknamed) {
         this._setIVs(null, null, is_nicknamed);
     }
+
+    get isEgg() {
+        let iv = this._getIVs();
+        return iv.is_nicknamed? true : false;
+    }
+    set isEgg(is_egg) {
+        this._setIVs(null, is_egg);
+    }
 }
 
 module.exports = PKX;
