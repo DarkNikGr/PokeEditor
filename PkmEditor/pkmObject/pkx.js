@@ -124,7 +124,16 @@ class PKX {
         Memory.RW.setValueAt(Memory.pkx.map.EV_SPEED, tmpEVs.speed, this._bin);
         Memory.RW.setValueAt(Memory.pkx.map.EV_SPECIALATTACK, tmpEVs.specialattack, this._bin);
         Memory.RW.setValueAt(Memory.pkx.map.EV_SPECIALDEFENSE, tmpEVs.specialdefense, this._bin);
+    }
 
+    get IVs() {
+        let iv = this._getIVs();
+        delete iv.is_egg;
+        delete iv.is_nicknamed;
+        return iv;
+    }
+    set IVs(ivs) {
+        this._setIVs(ivs);
     }
 }
 
