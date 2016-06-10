@@ -8,14 +8,6 @@ class PKX {
     _setIVs(IVs, isEgg, isNicknamed) {
         let current_data = this._getIVs();
         let IV32 = new Uint32Array(1);
-        let IV_HP = IVs.hp || current_data.hp;
-        let IV_Attack = IVs.attack || current_data.attack;
-        let IV_Defense = IVs.defense || current_data.defense;
-        let IV_Speed = IVs.speed || current_data.speed;
-        let IV_SpecialAttack = IVs.specialattack || current_data.specialattack;
-        let IV_SpecialDefense = IVs.specialdefense || current_data.specialdefense;
-        let Is_Egg = Number(isEgg) || current_data.is_egg;
-        let Is_Nicknamed = Number(isNicknamed) || current_data.is_nicknamed;
         IV32[0] = IVs.hp || current_data.hp & 0x1F;
         IV32[0] |= ((IVs.hp || current_data.hp & 0x1F) << 5);
         IV32[0] |= ((IVs.defense || current_data.defense & 0x1F) << 10);
