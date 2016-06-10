@@ -14,9 +14,9 @@ let loader = (path) => {
         case fileTypeSize.GEN6_POKEMON_DECRYPDET:
             return new SaveObj.PK6(file);
         case fileTypeSize.GEN6_SAVE_ORAS:
-            return new SaveObj.PK6(file, 'ORAS');
+            return new SaveObj.SAV6(file, 'ORAS');
         case fileTypeSize.GEN6_SAVE_XY:
-            return new SaveObj.PK6(file, 'XY');
+            return new SaveObj.SAV6(file, 'XY');
     }
 };
 

@@ -11,6 +11,10 @@ class SAV6 {
             this.offset = Memory.PK6.MAP.ORAS
         }
     }
+    
+    get gameType() {
+        return this._type;
+    }
 }
 
 module.exports = SAV6;
