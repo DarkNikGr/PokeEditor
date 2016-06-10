@@ -1,17 +1,19 @@
 let fs = require('fs');
-let pkmObject = require('./pkmObject');
+let pkmObject = require('./Files');
+let fileTypeSize = require('./fileTypeSize.json');
 let data = require('./Data');
 
-let load_pkx = (path) => {
-    let pkmfile = fs.readFileSync(path);
-    return new pkmObject.pkx(pkmfile);
+let loader = (path) => {
+    let file = fs.readFileSync(path);
+    switch (file.length) {
+        case fileTypeSize.GEN6_POKEMON_DECRYPDET:
+            return new pkmObject.PK6(file);
+    }
 };
 
 
 module.exports = {
-    load: {
-        pkx: load_pkx
-    },
+    load: loader,
     data: data,
     pkmObject: pkmObject
 };

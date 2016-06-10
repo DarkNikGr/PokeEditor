@@ -23,5 +23,5 @@ module.exports = {
         setValueAt: setValueAt,
         getValueAt: getValueAt
     },
-    pkx: require('./pkx')
+    PK6: require('./PK6')
 };
