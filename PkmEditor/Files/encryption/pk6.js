@@ -2,7 +2,7 @@ const cuint = require("cuint");
 var mul_const = cuint.UINT32(1103515245);
 var add_const = cuint.UINT32(24691);
 
-let next = (seed) => {
+let cuintNext = (seed) => {
     return cuint.UINT32(seed).multiply(mul_const).add(add_const).toNumber() >>> 0;
 };
 
@@ -90,13 +90,13 @@ let decrypt = (ekx) => {
     let seed = pv;
     let pkx16 = new Uint32Array(pkx.buffer, pkx.byteOffset, pkx.byteLength >> 2);
     for (let i = 4; i < 232 / 2; ++i) {
-        seed = util.LCRNG.next(seed);
+        seed = cuintNext(seed);
         pkx16[i] ^= ((seed >> 0x10) & 0xFFFF);
     }
     seed = pv;
     if (pkx.length > 232) {
         for (let i = 232 / 2; i < 260 / 2; ++i) {
-            seed = util.LCRNG.next(seed);
+            seed = cuintNext(seed);
             pkx16[i] ^= ((seed >> 16) & 0xFFFF);
         }
     }
@@ -113,13 +113,13 @@ let encrypt = (pkx) => {
     let seed = pv;
     let ekx16 = new Uint32Array(ekx.buffer, ekx.byteOffset, ekx.byteLength >> 2);
     for (let i = 4; i < 232 / 2; ++i) {
-        seed = util.LCRNG.next(seed);
+        seed = cuintNext(seed);
         ekx16[i] ^= ((seed >> 16) & 0xFFFF);
     }
     seed = pv;
     if (pkx.length > 232) {
         for (let i = 232 / 2; i < 260 / 2; ++i) {
-            seed = util.LCRNG.next(seed);
+            seed = cuintNext(seed);
             ekx16[i] ^= ((seed >> 16) & 0xFFFF);
         }
     }
