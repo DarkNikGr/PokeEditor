@@ -12,8 +12,6 @@ let getValueAt = (offset, bin) => {
     let buffer = new Uint8Array(offset.bits);
     for (var b = offset.bits, i = 0; b != 0; b--, i++, address++) {
         buffer[i] = bin[address];
-        if (i > 0xFFF)
-            break;
     }
     return buffer;
 };
