@@ -19,7 +19,7 @@ class SAV6 {
         return this._type;
     }
 
-    getpkmFromBoxByPos(pos) {
+    getPkmFromBoxByPos(pos) {
         let pkxOffset = {
             address: this._offset.BOX_DATA.address  + (pos * 232),
             bits: 232
