@@ -1,5 +1,5 @@
 let Memory = require('./memory/index');
-let Encryption = require('./encryption/index');
+let Encryption = require('./encryption');
 
 class PK6 {
     constructor(binary) {

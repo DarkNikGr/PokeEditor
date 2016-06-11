@@ -1,5 +1,5 @@
 let Memory = require('./memory');
-let Encryption = require('./encryption/index');
+let Encryption = require('./encryption');
 let PK6 = require('./PK6');
 
 class SAV6 {
