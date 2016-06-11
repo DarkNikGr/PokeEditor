@@ -1,5 +1,6 @@
 let Memory = require('./memory');
 let Encryption = require('./encryption');
+let fs = require('fs');
 let PK6 = require('./PK6');
 
 class SAV6 {
@@ -13,6 +14,10 @@ class SAV6 {
                 bits: Memory.SAV6.MAP[this._type][key].bits
             }
         });
+    }
+
+    saveToFile(path) {
+        fs.writeFileSync(path, this._bin);
     }
     
     get gameType() {
