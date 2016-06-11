@@ -31,16 +31,13 @@ class SAV6 {
         }
         return null;
     }
-
     getPkmFromBox(box, slot) {
         let pos = (box * 30) + slot;
         return this.getPkmFromBoxByPos(pos);
     }
-
-
     getAllPkmFromBox() {
-        var res = [];
-        var tmp;
+        let res = [];
+        let tmp;
         for (var i = 0; i < 930; ++i) {
             tmp = this.getPkmFromBoxByPos(i);
             if (tmp) {
@@ -48,6 +45,18 @@ class SAV6 {
             }
         }
         return res;
+    }
+    setPkmToPos(pkm, pos) {
+        let ekx = Encryption.PK6.encrypt(pkm);
+        let pkxOffset = {
+            address: this._offset.BOX_DATA.address  + (pos * 232),
+            bits: 232
+        };
+        Memory.RW.setValueAt(pkxOffset, ekx, this._bin);
+    }
+    setPkmToBox(pkm, box, slot) {
+        let pos = (box * 30) + slot;
+        this.setPkmToPos(pkm, pos);
     }
 }
 
