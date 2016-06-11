@@ -15,7 +15,8 @@ let copy = (src, off1, dest, off2, length) => {
         for (let i = 0; i < length; ++i) {
             dest[i + off2] = src[i + off1];
         }
-    } else {
+    }
+    else {
         for (let i = 0; i < lower4Bound; ++i) {
             dest[i + off2] = src[i + off1];
         }
@@ -98,7 +99,7 @@ let deshuffle = (pkx, sv) => {
 
 let shuffle = (pkx, sv) => {
     let ekx = new Uint8Array(pkx.length);
-    copy(pkx, 0, ekx, 0, 8);
+    copy(ekx, 0, pkx, 0, ekx.length);
     let shuffle = shuffleloc[sv];
     for (let b = 0; b < 4; b++)
         copy(pkx, 8 + 56 * shuffle[b], ekx, 8 + 56 * b, 56);
@@ -113,7 +114,8 @@ let decrypt = (ekx) => {
     let pv = new DataView(pkx.buffer, pkx.byteOffset, pkx.byteLength).getUint32(0, true);
     let sv = (((pv & 0x3E000) >> 0xD) % 24);
     let seed = pv;
-    let pkx16 = new Uint32Array(pkx.buffer, pkx.byteOffset, pkx.byteLength >> 2);
+    // let pkx16 = util.createUint16Array(pkx);
+    let pkx16 = new Uint16Array(pkx.buffer, pkx.byteOffset, pkx.byteLength >> 1);
     for (let i = 4; i < 232 / 2; ++i) {
         seed = cuintNext(seed);
         pkx16[i] ^= ((seed >> 0x10) & 0xFFFF);
@@ -136,7 +138,7 @@ let encrypt = (pkx) => {
     let sv = (((pv & 0x3E000) >> 0xD) % 24);
     ekx = shuffle(ekx, sv);
     let seed = pv;
-    let ekx16 = new Uint32Array(ekx.buffer, ekx.byteOffset, ekx.byteLength >> 2);
+    let ekx16 = new Uint16Array(ekx.buffer, ekx.byteOffset, ekx.byteLength >> 1);
     for (let i = 4; i < 232 / 2; ++i) {
         seed = cuintNext(seed);
         ekx16[i] ^= ((seed >> 16) & 0xFFFF);
@@ -153,7 +155,7 @@ let encrypt = (pkx) => {
 
 let fixChk = (pkx) => {
     let chk = 0;
-    let pkx16 = new Uint32Array(pkx.buffer, pkx.byteOffset, pkx.byteLength >> 2);
+    let pkx16 = new Uint16Array(pkx.buffer, pkx.byteOffset, pkx.byteLength >> 1);
     for (let i = 8 / 2; i < 232 / 2; i++) {
         chk += pkx16[i];
     }
@@ -162,7 +164,7 @@ let fixChk = (pkx) => {
 
 let verifyChk = (pkx) => {
     let chk = 0;
-    let pkx16 = new Uint32Array(pkx.buffer, pkx.byteOffset, pkx.byteLength >> 2);
+    let pkx16 = new Uint16Array(pkx.buffer, pkx.byteOffset, pkx.byteLength >> 1);
     for (let i = 8 / 2; i < 232 / 2; i++) {
         chk += pkx16[i];
     }
