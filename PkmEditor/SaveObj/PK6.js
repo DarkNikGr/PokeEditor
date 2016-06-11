@@ -2,8 +2,9 @@ let Memory = require('./memory/index');
 let Encryption = require('./encryption');
 
 class PK6 {
-    constructor(binary) {
+    constructor(binary, posBox) {
         this._bin = binary;
+        this._posBox = posBox || null;
         this._offset = Memory.PK6.MAP;
         if(this._checkIfEncrypted()){
             this._bin = Encryption.PK6.decrypt(binary);

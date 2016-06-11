@@ -27,7 +27,7 @@ class SAV6 {
         let pkm = Memory.RW.getValueAt(pkxOffset,this._bin);
         pkm = Encryption.PK6.decrypt(pkm);
         if (Encryption.PK6.verifyChk(pkm) && (pkm[8] | pkm[9]) != 0) {
-            return new PK6(pkm);
+            return new PK6(pkm, pos);
         }
         return null;
     }
