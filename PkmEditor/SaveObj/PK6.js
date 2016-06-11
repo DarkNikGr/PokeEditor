@@ -11,6 +11,10 @@ class PK6 {
         }
     }
 
+    get loadPos() {
+        return this._posBox;
+    }
+
     _checkIfEncrypted() {
         return (this._bin[0xe4] != 0);
     }
