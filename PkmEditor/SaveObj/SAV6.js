@@ -34,7 +34,7 @@ class SAV6 {
 
     getPkmFromBox(box, slot) {
         let pos = (box * 30) + slot;
-        return this.getpkmFromBoxByPos(pos);
+        return this.getPkmFromBoxByPos(pos);
     }
 
 
@@ -42,7 +42,7 @@ class SAV6 {
         var res = [];
         var tmp;
         for (var i = 0; i < 930; ++i) {
-            tmp = this.getpkmFromBoxByPos(i);
+            tmp = this.getPkmFromBoxByPos(i);
             if (tmp) {
                 res.push(tmp);
             }
