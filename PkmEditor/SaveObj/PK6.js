@@ -1,5 +1,6 @@
 let Memory = require('./memory/index');
 let Encryption = require('./encryption');
+let fs = require('fs');
 
 class PK6 {
     constructor(binary, posBox) {
@@ -9,6 +10,10 @@ class PK6 {
         if(this._checkIfEncrypted()){
             this._bin = Encryption.PK6.decrypt(binary);
         }
+    }
+
+    saveToFile(path) {
+        fs.writeFileSync(path, this._bin);
     }
 
     get loadPos() {
