@@ -12,11 +12,17 @@ class PK6 {
     }
 
     get binary() {
+        this.fixChk();
         return this._bin.slice(0);
     }
 
     saveToFile(path) {
+        this.fixChk();
         fs.writeFileSync(path, String.fromCharCode.apply(null, this._bin), 'binary');
+    }
+
+    fixChk() {
+        this._bin = Encryption.PK6.fixChk(this._bin);
     }
 
     get loadPos() {
@@ -113,6 +119,7 @@ class PK6 {
         }
         let u8a = new Uint8Array(u16a.buffer);
         Memory.RW.setValueAt(this._offset.NICKNAME, u8a, this._bin);
+        this.isNicknamed = true;
     }
 
     get EVs() {

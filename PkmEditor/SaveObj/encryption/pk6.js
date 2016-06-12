@@ -160,8 +160,19 @@ let verifyChk = (pkx) => {
     return (chk & 0xFFFF) == actualsum;
 };
 
+let fixChk = (pkx) => {
+    let chk = 0;
+    let pkx16 = new Uint16Array(pkx.buffer, pkx.byteOffset, pkx.byteLength >> 1);
+    for (var i = 8 / 2; i < 232 / 2; i++) {
+        chk += pkx16[i];
+    }
+    pkx16[6 / 2] = chk & 0xFFFF;
+    return new Uint8Array(pkx16.buffer);
+};
+
 module.exports = {
     decrypt: decrypt,
     encrypt: encrypt,
-    verifyChk: verifyChk
+    verifyChk: verifyChk,
+    fixChk: fixChk
 };
