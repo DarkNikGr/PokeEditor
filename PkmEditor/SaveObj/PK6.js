@@ -17,7 +17,6 @@ class PK6 {
         for(let i=0; i < this._bin.length; i++) {
             pkm[i] = this._bin[i];
         }
-        console.log(this._bin.length);
         fs.writeFileSync(path, String.fromCharCode.apply(null, pkm), 'binary');
     }
 
