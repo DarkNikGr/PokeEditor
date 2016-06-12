@@ -66,6 +66,38 @@ class SAV6 {
         let pos = ((box - 1) * 30) + slot - 1;
         this.setPkmToPos(pkm, pos);
     }
+    deletePkmFromBoxByPos(pos) {
+        let empty = new Uint8Array(0xE8);
+        let pkxOffset = {
+            address: this._offset.BOX.address  + (pos * 0xE8),
+            bits: 0xE8
+        };
+        Memory.RW.setValueAt(pkxOffset, empty, this._bin);
+    }
+    deletePkmFromBox(box, slot) {
+        let pos = ((box - 1) * 30) + slot - 1;
+        this.deletePkmFromBoxByPos(pos);
+    }
+    movePkmFromBoxByPos(src, dest) {
+    let pkm = this.getPkmFromBoxByPos(src);
+    this.setPkmToPos(pkm, dest);
+    this.deletePkmFromBoxByPos(src);
+}
+    movePKMFromBox(sbox, sslot, dbox, dslot){
+        let src = ((sbox - 1) * 30) + sslot - 1;
+        let dest = ((dbox - 1) * 30) + dslot - 1;
+        this.movePkmFromBoxByPos(src, dest);
+    }
+    clonePkmFromBoxByPos(src, dest) {
+        let pkm = this.getPkmFromBoxByPos(src);
+        this.setPkmToPos(pkm, dest);
+    }
+    clonePKMFromBox(sbox, sslot, dbox, dslot){
+        let src = ((sbox - 1) * 30) + sslot - 1;
+        let dest = ((dbox - 1) * 30) + dslot - 1;
+        this.clonePkmFromBoxByPos(src, dest);
+    }
+
 
     get TID() {
         let offset = {
