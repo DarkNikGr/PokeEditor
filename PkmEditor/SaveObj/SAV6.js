@@ -17,7 +17,7 @@ class SAV6 {
     }
 
     get binary() {
-        return this._bin;
+        return this._bin.slice(0);
     }
 
     saveToFile(path) {
