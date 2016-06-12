@@ -11,3 +11,5 @@ sav.setPkmToBox(pkm2,5,9);
 sav.saveToFile('./test/main2');
 pkm.saveToFile('./test/o.pkx');
 pkm2.saveToFile('./test/o2.pkx');
+
+console.log(sav.SID);

@@ -83,7 +83,7 @@ class SAV6 {
     this.setPkmToPos(pkm, dest);
     this.deletePkmFromBoxByPos(src);
 }
-    movePKMFromBox(sbox, sslot, dbox, dslot){
+    movePkmFromBox(sbox, sslot, dbox, dslot){
         let src = ((sbox - 1) * 30) + sslot - 1;
         let dest = ((dbox - 1) * 30) + dslot - 1;
         this.movePkmFromBoxByPos(src, dest);
@@ -92,7 +92,7 @@ class SAV6 {
         let pkm = this.getPkmFromBoxByPos(src);
         this.setPkmToPos(pkm, dest);
     }
-    clonePKMFromBox(sbox, sslot, dbox, dslot){
+    clonePkmFromBox(sbox, sslot, dbox, dslot){
         let src = ((sbox - 1) * 30) + sslot - 1;
         let dest = ((dbox - 1) * 30) + dslot - 1;
         this.clonePkmFromBoxByPos(src, dest);
