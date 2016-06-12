@@ -87,8 +87,7 @@ let shuffleloc = [
 ];
 
 let deshuffle = (pkx, sv) => {
-    let ekx = new Uint8Array(pkx.length);
-    copy(pkx, 0, ekx, 0, 8);
+    let ekx = pkx.slice(0);
     let shuffle = deshuffleloc[sv];
     for (let b = 0; b < 4; b++)
         copy(pkx, 8 + 56 * shuffle[b], ekx, 8 + 56 * b, 56);
@@ -98,8 +97,7 @@ let deshuffle = (pkx, sv) => {
 };
 
 let shuffle = (pkx, sv) => {
-    let ekx = new Uint8Array(pkx.length);
-    copy(ekx, 0, pkx, 0, ekx.length);
+    let ekx = pkx;
     let shuffle = shuffleloc[sv];
     for (let b = 0; b < 4; b++)
         copy(pkx, 8 + 56 * shuffle[b], ekx, 8 + 56 * b, 56);
@@ -109,12 +107,10 @@ let shuffle = (pkx, sv) => {
 };
 
 let decrypt = (ekx) => {
-    let pkx = new Uint8Array(ekx.length);
-    copy(ekx, 0, pkx, 0, ekx.length);
-    let pv = new DataView(pkx.buffer, pkx.byteOffset, pkx.byteLength).getUint32(0, true);
+    let pkx = ekx.slice(0);
+    let pv = new Uint32Array(pkx.buffer)[0];
     let sv = (((pv & 0x3E000) >> 0xD) % 24);
     let seed = pv;
-    // let pkx16 = util.createUint16Array(pkx);
     let pkx16 = new Uint16Array(pkx.buffer, pkx.byteOffset, pkx.byteLength >> 1);
     for (let i = 4; i < 232 / 2; ++i) {
         seed = cuintNext(seed);
@@ -132,9 +128,8 @@ let decrypt = (ekx) => {
 };
 
 let encrypt = (pkx) => {
-    let ekx = new Uint8Array(pkx.length);
-    copy(pkx, 0, ekx, 0, ekx.length);
-    let pv = new DataView(pkx.buffer, pkx.byteOffset, pkx.byteLength).getUint32(0, true);
+    let ekx = pkx;
+    let pv = new Uint32Array(pkx.buffer)[0];
     let sv = (((pv & 0x3E000) >> 0xD) % 24);
     ekx = shuffle(ekx, sv);
     let seed = pv;
@@ -153,15 +148,6 @@ let encrypt = (pkx) => {
     return ekx;
 };
 
-let fixChk = (pkx) => {
-    let chk = 0;
-    let pkx16 = new Uint16Array(pkx.buffer, pkx.byteOffset, pkx.byteLength >> 1);
-    for (let i = 8 / 2; i < 232 / 2; i++) {
-        chk += pkx16[i];
-    }
-    pkx16[6 / 2] = chk & 0xFFFF;
-};
-
 let verifyChk = (pkx) => {
     let chk = 0;
     let pkx16 = new Uint16Array(pkx.buffer, pkx.byteOffset, pkx.byteLength >> 1);
@@ -177,6 +163,5 @@ let verifyChk = (pkx) => {
 module.exports = {
     decrypt: decrypt,
     encrypt: encrypt,
-    fixChk: fixChk,
     verifyChk: verifyChk
 };

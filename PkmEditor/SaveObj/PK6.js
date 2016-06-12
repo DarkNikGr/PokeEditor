@@ -4,28 +4,23 @@ let fs = require('fs');
 
 class PK6 {
     constructor(binary, posBox) {
-        this._bin = binary;
+        this._bin = new Uint8Array(0x104);
+        for(let i=0; i < 0x104; i++)
+            this._bin[i] = binary[i];
         this._posBox = posBox || null;
         this._offset = Memory.PK6.MAP;
-        if(this._checkIfEncrypted()){
-            this._bin = Encryption.PK6.decrypt(binary);
-        }
+    }
+
+    get binary() {
+        return this._bin.slice(0);
     }
 
     saveToFile(path) {
-        let pkm = new Uint8Array(0x104);
-        for(let i=0; i < this._bin.length; i++) {
-            pkm[i] = this._bin[i];
-        }
-        fs.writeFileSync(path, String.fromCharCode.apply(null, pkm), 'binary');
+        fs.writeFileSync(path, String.fromCharCode.apply(null, this._bin), 'binary');
     }
 
     get loadPos() {
         return this._posBox;
-    }
-
-    _checkIfEncrypted() {
-        return (this._bin[0xe4] != 0);
     }
 
     _setIVs(ivs, isEgg, isNicknamed) {
