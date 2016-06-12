@@ -17,7 +17,7 @@ class SAV6 {
     }
 
     saveToFile(path) {
-        fs.writeFileSync(path, this._bin);
+        fs.writeFileSync(path, String.fromCharCode.apply(null, this._bin), 'binary');
     }
     
     get gameType() {
