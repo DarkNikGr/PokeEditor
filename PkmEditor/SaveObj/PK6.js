@@ -13,7 +13,12 @@ class PK6 {
     }
 
     saveToFile(path) {
-        fs.writeFileSync(path, this._bin);
+        let pkm = new Uint8Array(0x104);
+        for(let i=0; i < this._bin.length; i++) {
+            pkm[i] = this._bin[i];
+        }
+        console.log(this._bin.length);
+        fs.writeFileSync(path, String.fromCharCode.apply(null, pkm), 'binary');
     }
 
     get loadPos() {
