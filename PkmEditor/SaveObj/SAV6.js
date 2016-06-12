@@ -60,7 +60,7 @@ class SAV6 {
     setPkmToPos(pkm, pos) {
         let tmpPkm = new Uint8Array(0xE8);
         for(let i=0; i < 0xE8; i++)
-            tmpPkm[i] = pkm[i];
+            tmpPkm[i] = pkm.binary[i];
         let ekx = Encryption.PK6.encrypt(tmpPkm);
         let pkxOffset = {
             address: this._offset.BOX_DATA.address  + (pos * 0xE8),
