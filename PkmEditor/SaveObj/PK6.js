@@ -180,6 +180,46 @@ class PK6 {
     set isEgg(is_egg) {
         this._setIVs(null, is_egg);
     }
+
+    moveIDGet(pos) {
+        let memory = Memory.RW.getValueAt(this._offset['MOVE_ID_' + pos], this._bin);
+        let u16a = new Uint16Array(memory.buffer);
+        return u16a[0];
+    }
+    moveIDSet(pos, id) {
+        let buffer = new Uint16Array([id]);
+        let memory = new Uint8Array(buffer.buffer);
+        Memory.RW.setValueAt(this._offset['MOVE_ID_' + pos], memory, this._bin);
+    }
+    
+    movePPGet(pos) {
+        let memory = Memory.RW.getValueAt(this._offset['MOVE_PP_' + pos], this._bin);
+        return memory[0];
+    }
+    movePPSet(pos, id) {
+        let buffer = new Uint8Array([id]);
+        Memory.RW.setValueAt(this._offset['MOVE_PP_' + pos], buffer, this._bin);
+    }
+
+    movePPUPSGet(pos) {
+        let memory = Memory.RW.getValueAt(this._offset['MOVE_PPUPS_' + pos], this._bin);
+        return memory[0];
+    }
+    movePPUPSSet(pos, id) {
+        let buffer = new Uint8Array([id]);
+        Memory.RW.setValueAt(this._offset['MOVE_PPUPS_' + pos], buffer, this._bin);
+    }
+
+    moveRelearnGet(pos) {
+        let memory = Memory.RW.getValueAt(this._offset['MOVE_RELEARN_' + pos], this._bin);
+        let u16a = new Uint16Array(memory.buffer);
+        return u16a[0];
+    }
+    moveRelearnSet(pos, id) {
+        let buffer = new Uint16Array([id]);
+        let memory = new Uint8Array(buffer.buffer);
+        Memory.RW.setValueAt(this._offset['MOVE_RELEARN_' + pos], memory, this._bin);
+    }
 }
 
 module.exports = PK6;
