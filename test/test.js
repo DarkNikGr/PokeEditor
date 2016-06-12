@@ -2,8 +2,8 @@ let pkmEdit = require('./../PkmEditor');
 let en = require('./../PkmEditor/SaveObj/encryption');
 let fs = require('fs');
 
-let sav = pkmEdit.load('./test/main');
-let pkm = pkmEdit.load('./test/pkm.pkx');
+let sav = pkmEdit.LoadFile('./test/main');
+let pkm = pkmEdit.LoadFile('./test/pkm.pkx');
 let pkm2 = sav.getPkmFromBox(5,2);
 pkm2.nickName = "mitsos";
 sav.setPkmToBox(pkm,5,8);
