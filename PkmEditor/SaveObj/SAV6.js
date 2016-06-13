@@ -52,10 +52,7 @@ class SAV6 {
         return res;
     }
     setPkmToPos(pkm, pos) {
-        let tmpPkm = new Uint8Array(0xE8);
-        for(let i=0; i < 0xE8; i++)
-            tmpPkm[i] = pkm.binary[i];
-        let ekx = Encryption.PK6.encrypt(tmpPkm);
+        let ekx = Encryption.PK6.encrypt(pkm.binary);
         let pkxOffset = {
             address: this._offset.BOX.address  + (pos * 0xE8),
             bits: 0xE8
@@ -79,10 +76,9 @@ class SAV6 {
         this.deletePkmFromBoxByPos(pos);
     }
     movePkmFromBoxByPos(src, dest) {
-    let pkm = this.getPkmFromBoxByPos(src);
-    this.setPkmToPos(pkm, dest);
-    this.deletePkmFromBoxByPos(src);
-}
+        this.clonePkmFromBoxByPos(src, dest);
+        this.deletePkmFromBoxByPos(src);
+    }
     movePkmFromBox(sbox, sslot, dbox, dslot){
         let src = ((sbox - 1) * 30) + sslot - 1;
         let dest = ((dbox - 1) * 30) + dslot - 1;
@@ -90,14 +86,14 @@ class SAV6 {
     }
     clonePkmFromBoxByPos(src, dest) {
         let pkm = this.getPkmFromBoxByPos(src);
-        this.setPkmToPos(pkm, dest);
+        if (pkm)
+            this.setPkmToPos(pkm, dest);
     }
     clonePkmFromBox(sbox, sslot, dbox, dslot){
         let src = ((sbox - 1) * 30) + sslot - 1;
         let dest = ((dbox - 1) * 30) + dslot - 1;
         this.clonePkmFromBoxByPos(src, dest);
     }
-
 
     get TID() {
         let offset = {

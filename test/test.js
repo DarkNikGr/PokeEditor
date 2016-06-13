@@ -4,12 +4,16 @@ let fs = require('fs');
 
 let sav = pkmEdit.LoadFile('./test/main');
 let pkm = pkmEdit.LoadFile('./test/pkm.pkx');
-let pkm2 = sav.getPkmFromBox(5,2);
-pkm2.nickName = "mitsos";
-sav.setPkmToBox(pkm,5,8);
-sav.setPkmToBox(pkm2,5,9);
+
+
+sav.movePkmFromBox(5,5,5,26);
+sav.clonePkmFromBox(5,4,5,29);
+let pkm2 = sav.getPkmFromBox(5,1);
+pkm.nickName = "mpampis";
+pkm2.nickName = "maria";
+sav.setPkmToBox(pkm, 5,27);
+sav.setPkmToBox(pkm2, 5,28);
+sav.deletePkmFromBox(5,7);
+
 sav.saveToFile('./test/main2');
 pkm.saveToFile('./test/o.pkx');
-pkm2.saveToFile('./test/o2.pkx');
-
-console.log(sav.SID);

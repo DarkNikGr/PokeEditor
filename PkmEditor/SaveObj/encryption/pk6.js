@@ -32,75 +32,17 @@ let copy = (src, off1, dest, off2, length) => {
     }
 };
 
-let deshuffleloc = [
-    [ 0, 1, 2, 3 ],
-    [ 0, 1, 3, 2 ],
-    [ 0, 2, 1, 3 ],
-    [ 0, 3, 1, 2 ],
-    [ 0, 2, 3, 1 ],
-    [ 0, 3, 2, 1 ],
-    [ 1, 0, 2, 3 ],
-    [ 1, 0, 3, 2 ],
-    [ 2, 0, 1, 3 ],
-    [ 3, 0, 1, 2 ],
-    [ 2, 0, 3, 1 ],
-    [ 3, 0, 2, 1 ],
-    [ 1, 2, 0, 3 ],
-    [ 1, 3, 0, 2 ],
-    [ 2, 1, 0, 3 ],
-    [ 3, 1, 0, 2 ],
-    [ 2, 3, 0, 1 ],
-    [ 3, 2, 0, 1 ],
-    [ 1, 2, 3, 0 ],
-    [ 1, 3, 2, 0 ],
-    [ 2, 1, 3, 0 ],
-    [ 3, 1, 2, 0 ],
-    [ 2, 3, 1, 0 ],
-    [ 3, 2, 1, 0 ]
-];
-
-let shuffleloc = [
-    [ 0, 1, 2, 3 ],
-    [ 0, 1, 3, 2 ],
-    [ 0, 2, 1, 3 ],
-    [ 0, 2, 3, 1 ],
-    [ 0, 3, 1, 2 ],
-    [ 0, 3, 2, 1 ],
-    [ 1, 0, 2, 3 ],
-    [ 1, 0, 3, 2 ],
-    [ 1, 2, 0, 3 ],
-    [ 1, 2, 3, 0 ],
-    [ 1, 3, 0, 2 ],
-    [ 1, 3, 2, 0 ],
-    [ 2, 0, 1, 3 ],
-    [ 2, 0, 3, 1 ],
-    [ 2, 1, 0, 3 ],
-    [ 2, 1, 3, 0 ],
-    [ 2, 3, 0, 1 ],
-    [ 2, 3, 1, 0 ],
-    [ 3, 0, 1, 2 ],
-    [ 3, 0, 2, 1 ],
-    [ 3, 1, 0, 2 ],
-    [ 3, 1, 2, 0 ],
-    [ 3, 2, 0, 1 ],
-    [ 3, 2, 1, 0 ]
-];
-
-let deshuffle = (pkx, sv) => {
-    let ekx = pkx.slice(0);
-    let shuffle = deshuffleloc[sv];
-    for (let b = 0; b < 4; b++)
-        copy(pkx, 8 + 56 * shuffle[b], ekx, 8 + 56 * b, 56);
-    if (pkx.length > 232)
-        copy(pkx, 232, ekx, 232, 28);
-    return ekx;
-};
-
 let shuffle = (pkx, sv) => {
-    let ekx = pkx;
-    let shuffle = shuffleloc[sv];
-    for (let b = 0; b < 4; b++)
-        copy(pkx, 8 + 56 * shuffle[b], ekx, 8 + 56 * b, 56);
+    let aloc = [ 0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3 ];
+    let bloc = [ 1, 1, 2, 3, 2, 3, 0, 0, 0, 0, 0, 0, 2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2 ];
+    let cloc = [ 2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2, 0, 0, 0, 0, 0, 0, 3, 2, 3, 2, 1, 1 ];
+    let dloc = [ 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0 ];
+
+    let ord = [ aloc[sv], bloc[sv], cloc[sv], dloc[sv]];
+    let ekx = pkx.slice(0);
+    for (let b = 0; b < 4; b++) {
+        copy(pkx, 8 + 56 * ord[b], ekx, 8 + 56 * b, 56);
+    }
     if (pkx.length > 232)
         copy(pkx, 232, ekx, 232, 28);
     return ekx;
@@ -123,8 +65,9 @@ let decrypt = (ekx) => {
             pkx16[i] ^= ((seed >> 16) & 0xFFFF);
         }
     }
-    pkx = deshuffle(pkx, sv);
-    return pkx;
+    pkx = shuffle(pkx, sv);
+    let pkx8a = new Uint8Array(pkx.buffer);
+    return pkx8a;
 };
 
 let encrypt = (pkx) => {
@@ -145,7 +88,8 @@ let encrypt = (pkx) => {
             ekx16[i] ^= ((seed >> 16) & 0xFFFF);
         }
     }
-    return ekx;
+    let ekx8a = new Uint8Array(ekx16.buffer);
+    return ekx8a;
 };
 
 let verifyChk = (pkx) => {
