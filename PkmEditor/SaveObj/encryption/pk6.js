@@ -71,10 +71,12 @@ let decrypt = (ekx) => {
 };
 
 let encrypt = (pkx) => {
-    let ekx = pkx;
+    let ekx = pkx.slice(0);
     let pv = new Uint32Array(pkx.buffer)[0];
     let sv = (((pv & 0x3E000) >> 0xD) % 24);
-    ekx = shuffle(ekx, sv);
+    for(let i = 0; i < 11; i++){
+        ekx = shuffle(ekx, sv);
+    }
     let seed = pv;
     let ekx16 = new Uint16Array(ekx.buffer, ekx.byteOffset, ekx.byteLength >> 1);
     for (let i = 4; i < 232 / 2; ++i) {

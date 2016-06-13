@@ -7,7 +7,7 @@ let pkm = pkmEdit.LoadFile('./test/pkm.pkx');
 
 
 sav.movePkmFromBox(5,5,5,26);
-sav.clonePkmFromBox(5,4,5,29);
+sav.clonePkmFromBox(5,9,5,29);
 let pkm2 = sav.getPkmFromBox(5,1);
 pkm.nickName = "mpampis";
 pkm2.nickName = "maria";
