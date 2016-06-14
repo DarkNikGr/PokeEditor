@@ -12,20 +12,20 @@ class PK6 {
     }
 
     get binary() {
-        this.fixChk();
+        this.FixChk();
         return this._bin.slice(0);
     }
 
-    saveToFile(path) {
-        this.fixChk();
+    SaveToFile(path) {
+        this.FixChk();
         fs.writeFileSync(path, String.fromCharCode.apply(null, this._bin), 'binary');
     }
 
-    fixChk() {
+    FixChk() {
         this._bin = Encryption.PK6.fixChk(this._bin);
     }
 
-    get loadPos() {
+    get LoadPos() {
         return this._posBox;
     }
 
@@ -63,66 +63,65 @@ class PK6 {
         return ivs;
     }
 
-    get nationalID() {
+    GetNationalID() {
         let memory = Memory.RW.getValueAt(this._offset.NATIONAL_POKEDEX_ID, this._bin);
         let u16a = new Uint16Array(memory.buffer);
         return u16a[0];
     }
-    set nationalID(pokedexId) {
+    SetNationalID(pokedexId) {
         let buffer = new Uint16Array([pokedexId]);
         let memory = new Uint8Array(buffer.buffer);
         Memory.RW.setValueAt(this._offset.NATIONAL_POKEDEX_ID, memory, this._bin);
     }
 
-    get heldItem() {
+    GetHeldItem() {
         let memory = Memory.RW.getValueAt(this._offset.HELD_ITEM, this._bin);
         let u16a = new Uint16Array(memory.buffer);
         return u16a[0];
     }
-    set heldItem(item) {
+    SetHeldItem(item) {
         let buffer = new Uint16Array([item]);
         let memory = new Uint8Array(buffer.buffer);
         Memory.RW.setValueAt(this._offset.HELD_ITEM, memory, this._bin);
     }
 
-    get OTID() {
+    GetOTID() {
         let memory = Memory.RW.getValueAt(this._offset.OT_ID, this._bin);
         let u16a = new Uint16Array(memory.buffer);
         return u16a[0];
     }
-    set OTID(otID) {
+    SetOTID(otID) {
         let buffer = new Uint16Array([otID]);
         let memory = new Uint8Array(buffer.buffer);
         Memory.RW.setValueAt(this._offset.OT_ID, memory, this._bin);
     }
 
-    get experience() {
+    GetExperience() {
         let memory = Memory.RW.getValueAt(this._offset.EXP_POINTS, this._bin);
         let u32a = new Uint32Array(memory.buffer);
         return u32a[0];
     }
-    set experience(exp) {
+    SetExperience(exp) {
         let buffer = new Uint32Array([exp]);
         let memory = new Uint8Array(buffer.buffer);
         Memory.RW.setValueAt(this._offset.EXP_POINTS, memory, this._bin);
     }
 
-    get nickName() {
+    GetNickName() {
         let memory = Memory.RW.getValueAt(this._offset.NICKNAME, this._bin);
         return String.fromCharCode.apply(null, memory);
     }
-    set nickName(nickname) {
-        let offset = this._offset.NICKNAME;
-        let u16a = new Uint16Array(0x9);
+    SetNickName(nickname) {
+        let u16a = new Uint16Array(9);
         for (var i = 0; i < nickname.length; ++i) {
             u16a[i] = nickname.charCodeAt(i);
         }
         let u8a = new Uint8Array(u16a.buffer);
         Memory.RW.setValueAt(this._offset.NICKNAME, u8a, this._bin);
-        this.isNicknamed = true;
+        this.SetIsNicknamed(true);
     }
 
-    get EVs() {
+    GetEVs() {
         let memoryHP = Memory.RW.getValueAt(this._offset.EV_HP, this._bin);
         let memoryATTACK = Memory.RW.getValueAt(this._offset.EV_ATTACK, this._bin);
         let memoryDEFENSE = Memory.RW.getValueAt(this._offset.EV_DEFENSE, this._bin);
@@ -138,7 +137,7 @@ class PK6 {
         evs.speed = memorySPEED[0];
         return evs;
     }
-    set EVs(evs) {
+    SetEVs(evs) {
         let current = this.EVs;
         let tmpEVs = {};
         tmpEVs.hp = new Uint8Array([evs.hp || current.hp]);
@@ -155,67 +154,67 @@ class PK6 {
         Memory.RW.setValueAt(this._offset.EV_SPECIALDEFENSE, tmpEVs.specialdefense, this._bin);
     }
 
-    get IVs() {
+    GetIVs() {
         let iv = this._getIVs();
         delete iv.is_egg;
         delete iv.is_nicknamed;
         return iv;
     }
-    set IVs(ivs) {
+    SetIVs(ivs) {
         this._setIVs(ivs);
     }
 
-    get isNicknamed() {
+    GetIsNicknamed() {
         let iv = this._getIVs();
         return iv.is_nicknamed? true : false;
     }
-    set isNicknamed(is_nicknamed) {
+    SetIsNicknamed(is_nicknamed) {
         this._setIVs(null, null, is_nicknamed);
     }
 
-    get isEgg() {
+    GetIsEgg() {
         let iv = this._getIVs();
         return iv.is_nicknamed? true : false;
     }
-    set isEgg(is_egg) {
+    SetIsEgg(is_egg) {
         this._setIVs(null, is_egg);
     }
 
-    moveIDGet(pos) {
+    GetMoveID(pos) {
         let memory = Memory.RW.getValueAt(this._offset['MOVE_ID_' + pos], this._bin);
         let u16a = new Uint16Array(memory.buffer);
         return u16a[0];
     }
-    moveIDSet(pos, id) {
+    SetMoveID(pos, id) {
         let buffer = new Uint16Array([id]);
         let memory = new Uint8Array(buffer.buffer);
         Memory.RW.setValueAt(this._offset['MOVE_ID_' + pos], memory, this._bin);
     }
     
-    movePPGet(pos) {
+    GetMovePP(pos) {
         let memory = Memory.RW.getValueAt(this._offset['MOVE_PP_' + pos], this._bin);
         return memory[0];
     }
-    movePPSet(pos, id) {
+    SetMovePP(pos, id) {
         let buffer = new Uint8Array([id]);
         Memory.RW.setValueAt(this._offset['MOVE_PP_' + pos], buffer, this._bin);
     }
 
-    movePPUPSGet(pos) {
+    GetMovePPUPS(pos) {
         let memory = Memory.RW.getValueAt(this._offset['MOVE_PPUPS_' + pos], this._bin);
         return memory[0];
     }
-    movePPUPSSet(pos, id) {
+    SetMovePPUPS(pos, id) {
         let buffer = new Uint8Array([id]);
         Memory.RW.setValueAt(this._offset['MOVE_PPUPS_' + pos], buffer, this._bin);
     }
 
-    moveRelearnGet(pos) {
+    GetMoveRelearn(pos) {
         let memory = Memory.RW.getValueAt(this._offset['MOVE_RELEARN_' + pos], this._bin);
         let u16a = new Uint16Array(memory.buffer);
         return u16a[0];
     }
-    moveRelearnSet(pos, id) {
+    SetMoveRelearn(pos, id) {
         let buffer = new Uint16Array([id]);
         let memory = new Uint8Array(buffer.buffer);
         Memory.RW.setValueAt(this._offset['MOVE_RELEARN_' + pos], memory, this._bin);

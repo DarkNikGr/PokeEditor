@@ -14,7 +14,7 @@ class SAV6 {
         return this._bin.slice(0);
     }
 
-    saveToFile(path) {
+    SaveToFile(path) {
         var res = "";
         this._bin.forEach((b) =>{
             res += String.fromCharCode(b);
@@ -26,7 +26,7 @@ class SAV6 {
         return this._type;
     }
 
-    getPkmFromBoxByPos(pos) {
+    GetPkmBoxPos(pos) {
         let pkxOffset = {
             address: this._offset.BOX.address  + (pos * 0xE8),
             bits: 0xE8
@@ -37,21 +37,21 @@ class SAV6 {
             return new PK6(pkm, pos);
         return null;
     }
-    getPkmFromBox(box, slot) {
+    GetPkmBox(box, slot) {
         let pos = ((box - 1) * 30) + slot - 1;
-        return this.getPkmFromBoxByPos(pos);
+        return this.GetPkmBoxPos(pos);
     }
-    getAllPkmFromBox() {
+    GetAllPkmBoxs() {
         let res = [];
         let tmp;
         for (var i = 0; i < 930; ++i) {
-            tmp = this.getPkmFromBoxByPos(i);
+            tmp = this.GetPkmBoxPos(i);
             if (tmp)
                 res.push(tmp);
         }
         return res;
     }
-    setPkmToPos(pkm, pos) {
+    SetPkmBoxPos(pkm, pos) {
         let ekx = Encryption.PK6.encrypt(pkm.binary);
         let pkxOffset = {
             address: this._offset.BOX.address  + (pos * 0xE8),
@@ -59,11 +59,11 @@ class SAV6 {
         };
         Memory.RW.setValueAt(pkxOffset, ekx, this._bin);
     }
-    setPkmToBox(pkm, box, slot) {
+    SetPkmBox(pkm, box, slot) {
         let pos = ((box - 1) * 30) + slot - 1;
-        this.setPkmToPos(pkm, pos);
+        this.SetPkmBoxPos(pkm, pos);
     }
-    deletePkmFromBoxByPos(pos) {
+    DeletePkmBoxPos(pos) {
         let empty = new Uint8Array(0xE8);
         let pkxOffset = {
             address: this._offset.BOX.address  + (pos * 0xE8),
@@ -71,31 +71,31 @@ class SAV6 {
         };
         Memory.RW.setValueAt(pkxOffset, empty, this._bin);
     }
-    deletePkmFromBox(box, slot) {
+    DeletePkmBox(box, slot) {
         let pos = ((box - 1) * 30) + slot - 1;
-        this.deletePkmFromBoxByPos(pos);
+        this.DeletePkmBoxPos(pos);
     }
-    movePkmFromBoxByPos(src, dest) {
-        this.clonePkmFromBoxByPos(src, dest);
-        this.deletePkmFromBoxByPos(src);
+    MovePkmBoxPos(src, dest) {
+        this.ClonePkmBoxPos(src, dest);
+        this.DeletePkmBoxPos(src);
     }
-    movePkmFromBox(sbox, sslot, dbox, dslot){
+    MovePkmBox(sbox, sslot, dbox, dslot){
         let src = ((sbox - 1) * 30) + sslot - 1;
         let dest = ((dbox - 1) * 30) + dslot - 1;
-        this.movePkmFromBoxByPos(src, dest);
+        this.MovePkmBoxPos(src, dest);
     }
-    clonePkmFromBoxByPos(src, dest) {
-        let pkm = this.getPkmFromBoxByPos(src);
+    ClonePkmBoxPos(src, dest) {
+        let pkm = this.GetPkmBoxPos(src);
         if (pkm)
-            this.setPkmToPos(pkm, dest);
+            this.SetPkmBoxPos(pkm, dest);
     }
-    clonePkmFromBox(sbox, sslot, dbox, dslot){
+    ClonePkmBox(sbox, sslot, dbox, dslot){
         let src = ((sbox - 1) * 30) + sslot - 1;
         let dest = ((dbox - 1) * 30) + dslot - 1;
-        this.clonePkmFromBoxByPos(src, dest);
+        this.ClonePkmBoxPos(src, dest);
     }
 
-    get TID() {
+    GetTID() {
         let offset = {
             address: this._offset.TRAINER_CARD.address,
             bits: 0x2
@@ -104,7 +104,7 @@ class SAV6 {
         let u16a = new Uint16Array(memory.buffer);
         return u16a[0];
     }
-    set TID(tid) {
+    SetTID(tid) {
         let offset = {
             address: this._offset.TRAINER_CARD.address,
             bits: 0x2
@@ -114,7 +114,7 @@ class SAV6 {
         Memory.RW.setValueAt(offset, memory, this._bin);
     }
 
-    get SID() {
+    GetSID() {
         let offset = {
             address: this._offset.TRAINER_CARD.address + 0x2,
             bits: 0x2
@@ -123,7 +123,7 @@ class SAV6 {
         let u16a = new Uint16Array(memory.buffer);
         return u16a[0];
     }
-    set SID(sid) {
+    SetSID(sid) {
         let offset = {
             address: this._offset.TRAINER_CARD.address + 0x2,
             bits: 0x2

@@ -6,14 +6,15 @@ let sav = pkmEdit.LoadFile('./test/main');
 let pkm = pkmEdit.LoadFile('./test/pkm.pkx');
 
 
-sav.movePkmFromBox(5,5,5,26);
-sav.clonePkmFromBox(5,9,5,29);
-let pkm2 = sav.getPkmFromBox(5,1);
-pkm.nickName = "mpampis";
-pkm2.nickName = "maria";
-sav.setPkmToBox(pkm, 5,27);
-sav.setPkmToBox(pkm2, 5,28);
-sav.deletePkmFromBox(5,7);
+sav.MovePkmBox(5,5,5,26);
+sav.ClonePkmBox(5,9,5,29);
+let pkm2 = sav.GetPkmBox(5,1);
+pkm.SetNickName('mpampis');
+pkm2.SetNickName('maria');
+sav.SetPkmBox(pkm, 5,27);
+sav.SetPkmBox(pkm2, 5,28);
+sav.DeletePkmBox(5,7);
 
-sav.saveToFile('./test/main2');
-pkm.saveToFile('./test/o.pkx');
+sav.SaveToFile('./test/main2');
+pkm.SaveToFile('./test/o.pkx');
+pkm2.SaveToFile('./test/o2.pkx');
