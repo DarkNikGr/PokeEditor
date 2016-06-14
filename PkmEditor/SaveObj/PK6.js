@@ -117,6 +117,24 @@ class PK6 {
         let memory = new Uint8Array(buffer.buffer);
         Memory.RW.setValueAt(this._offset.EXP_POINTS, memory, this._bin);
     }
+    
+    GetAbility() {
+        let memory = Memory.RW.getValueAt(this._offset.ABILITY, this._bin);
+        return memory[0];
+    }
+    SetAbility(ability) {
+        let buffer = new Uint8Array([ability]);
+        Memory.RW.setValueAt(this._offset.ABILITY, buffer, this._bin);
+    }
+
+    GetAbilityNum() {
+        let memory = Memory.RW.getValueAt(this._offset.ABILITY, this._bin);
+        return memory[0];
+    }
+    SetAbilityNum(num) {
+        let buffer = new Uint8Array([num]);
+        Memory.RW.setValueAt(this._offset.ABILITY, buffer, this._bin);
+    }
 
     GetNickName() {
         let memory = Memory.RW.getValueAt(this._offset.NICKNAME, this._bin);

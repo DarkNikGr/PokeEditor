@@ -8,8 +8,8 @@ let map = {
     OT_ID: { address: 0x0C, bits: 0x2 },
     OT_SECRET_ID: { address: 0x0E, bits: 0x2 },
     EXP_POINTS: { address: 0x10, bits: 0x4 },
-    // ABILITY: { address: 0x14, bits: 0x1 },
-    // ABILITY_NUM: { address: 0x15, bits: 0x1 },
+    ABILITY: { address: 0x14, bits: 0x1 },
+    ABILITY_NUM: { address: 0x15, bits: 0x1 },
 
     // missing 0x16 - 0x17
 
