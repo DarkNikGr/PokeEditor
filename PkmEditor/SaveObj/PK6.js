@@ -85,15 +85,26 @@ class PK6 {
         Memory.RW.setValueAt(this._offset.HELD_ITEM, memory, this._bin);
     }
 
-    GetOTID() {
+    GetTID() {
         let memory = Memory.RW.getValueAt(this._offset.OT_ID, this._bin);
         let u16a = new Uint16Array(memory.buffer);
         return u16a[0];
     }
-    SetOTID(otID) {
+    SetTID(otID) {
         let buffer = new Uint16Array([otID]);
         let memory = new Uint8Array(buffer.buffer);
         Memory.RW.setValueAt(this._offset.OT_ID, memory, this._bin);
+    }
+
+    GetSID() {
+        let memory = Memory.RW.getValueAt(this._offset.OT_SECRET_ID, this._bin);
+        let u16a = new Uint16Array(memory.buffer);
+        return u16a[0];
+    }
+    SetSID(otdid) {
+        let buffer = new Uint16Array([otdid]);
+        let memory = new Uint8Array(buffer.buffer);
+        Memory.RW.setValueAt(this._offset.OT_SECRET_ID, memory, this._bin);
     }
 
     GetExperience() {
