@@ -1,6 +1,7 @@
 let fs = require('fs');
 let SaveObj = require('./SaveObj');
 let data = require('./Data');
+let Utility = require('./Utility');
 
 let LoadBinary = (binary) => {
     switch (binary.length) {
@@ -22,5 +23,6 @@ module.exports = {
     LoadFile: LoadFile,
     LoadBinary: LoadBinary,
     Data: data,
+    Utility: Utility,
     SaveObj: SaveObj
 };
