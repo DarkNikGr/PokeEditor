@@ -1,6 +1,10 @@
 
 let map = {
 
+    // 0x00-0x03	Encryption Key
+    // 0x04-0x05	Sanity Placeholder
+    // 0x06-0x07	Checksum
+
     /* Block A (0x8 - 0x3F) */
 
     NATIONAL_POKEDEX_ID: { address: 0x8, bits: 0x2 },
@@ -13,7 +17,7 @@ let map = {
 
     // missing 0x16 - 0x17
 
-    // PERSONALITY_VALUE: { address: 0x18, bits: 0x4 },
+    PERSONALITY_VALUE: { address: 0x18, bits: 0x4 },
     // NATURE: { address: 0x1C, bits: 0x1 },
 
     // ENCOUNTER_FLAGS: { address: 0x1D, bits: 0x1 },

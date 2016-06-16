@@ -1,7 +1,7 @@
 let Memory = require('./memory/index');
 let Encryption = require('./encryption');
 let fs = require('fs');
-
+let utility = require('../Utility');
 class PK6 {
     constructor(binary, posBox) {
         this._bin = new Uint8Array(0x104);
@@ -134,6 +134,25 @@ class PK6 {
     SetAbilityNum(num) {
         let buffer = new Uint8Array([num]);
         Memory.RW.setValueAt(this._offset.ABILITY, buffer, this._bin);
+    }
+
+    GetPID() {
+        let memory = Memory.RW.getValueAt(this._offset.PERSONALITY_VALUE, this._bin);
+        let u32a = new Uint32Array(memory.buffer);
+        return u32a[0];
+    }
+    GetPIDHex() {
+        let memory = Memory.RW.getValueAt(this._offset.PERSONALITY_VALUE, this._bin);
+        return utility.ByteArrayToHex(memory);
+    }
+    SetPID(pid) {
+        let buffer = new Uint32Array([pid]);
+        let memory = new Uint8Array(buffer.buffer);
+        Memory.RW.setValueAt(this._offset.EXP_POINTS, memory, this._bin);
+    }
+    SetPIDHex(pidHex) {
+        let memory = utility.HexToUint8Array(pidHex);
+        Memory.RW.setValueAt(this._offset.EXP_POINTS, memory, this._bin);
     }
 
     GetNickName() {
