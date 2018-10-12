@@ -1,3 +1,3 @@
 module.exports = {
-    PK6: require('./pk6')
+  PK6: require('./pk6')
 };
